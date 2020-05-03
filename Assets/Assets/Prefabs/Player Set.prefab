@@ -550,7 +550,7 @@ Transform:
   m_Children:
   - {fileID: 1189883419}
   m_Father: {fileID: 6902583711593579250}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!20 &6902583711033084845
 Camera:
@@ -784,7 +784,7 @@ Transform:
   m_Children:
   - {fileID: 6902583711272012954}
   m_Father: {fileID: 6902583711593579250}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &6902583711458014320
 SpriteRenderer:
@@ -898,8 +898,8 @@ MonoBehaviour:
   _WhatIsGround:
     serializedVersion: 2
     m_Bits: 256
-  _TopLeftGround: {x: -0.5, y: -0.4}
-  _BottomRightGround: {x: 0.5, y: -0.6}
+  _TopLeftGround: {x: -0.3, y: -0.4}
+  _BottomRightGround: {x: 0.3, y: -0.6}
   _MovementSpeed: 9
   _Acceleration: 4
   _WallJumpAcceleration: 1
@@ -918,7 +918,7 @@ MonoBehaviour:
   _GrabKey: 107
   _MaxStamina: 4
   _ClimbSpeed: 3
-  _ClimbAcceleration: 1
+  _ClimbAcceleration: 1.5
   _WallCircleRadii: 0.1
   _LeftGrabCircleOffset: {x: -0.5, y: -0.3, z: 0}
   _RightGrabCircleOffset: {x: 0.5, y: -0.3, z: 0}
@@ -5685,8 +5685,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 6902583711033084754}
   - {fileID: 6902583711458014321}
+  - {fileID: 6902583711033084754}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
