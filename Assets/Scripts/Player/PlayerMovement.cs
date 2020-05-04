@@ -140,11 +140,17 @@ public class PlayerMovement : MonoBehaviour {
             return;
 
         // Increase gravity if not jumping or while falling to reduce floatiness
-        if (_Rigidbody.velocity.y < 0)
+       
+        if (_Rigidbody.velocity.y < 0 || _DashesLeft < _MaxDashes)
+        {
             _Rigidbody.gravityScale = _FallMultiplier;
-        else if (_Rigidbody.velocity.y > 0 && !Input.GetKey(_JumpKey)) {
+        }
+        else if (_Rigidbody.velocity.y > 0 && !Input.GetKey(_JumpKey))
+        {
             _Rigidbody.gravityScale = _LowJumpMultiplier;
-        } else {
+        }
+        else
+        {
             _Rigidbody.gravityScale = 1;
         }
     }

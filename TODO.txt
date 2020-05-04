@@ -1,5 +1,6 @@
 Release 0.2 - UI update:
 Timer
+Death and respawning
 
 Release 0.3 - Items update:
 Death and respawning
@@ -13,8 +14,7 @@ Allow players to change keybinds
 restart stage
 
 Release 0.5 - Graphics update:
-convert ground to tilemap
-Create some ground and background graphics
+Create some good ground and background graphics
 create and animate player (do not use IK)
 background music
 sfx
