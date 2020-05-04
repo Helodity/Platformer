@@ -3,7 +3,6 @@
 public class PlayerMovement : MonoBehaviour {
 
     /*TODO
-     * Move dash particles to PlayerVisuals.cs
      * Find some better organization for variables
      * Make Stamina not refill instantly
     */
@@ -39,7 +38,6 @@ public class PlayerMovement : MonoBehaviour {
     [SerializeField] float _DashLength;
     [SerializeField] int _MaxDashes;
     [SerializeField] KeyCode _DashKey;
-    ParticleSystem _DashParticles;
     bool _WantToDash;
     [HideInInspector] public bool _IsDashing;
     float _DashTimeLeft;
@@ -61,9 +59,6 @@ public class PlayerMovement : MonoBehaviour {
 
     void Awake() {
         _Rigidbody = GetComponent<Rigidbody2D>();
-
-        _DashParticles = GetComponent<ParticleSystem>();
-        _DashParticles.Stop();
 
         _CurrentStamina = _MaxStamina;
     }
@@ -214,8 +209,6 @@ public class PlayerMovement : MonoBehaviour {
         if (_DashDirection == Vector2.zero)
             return;
 
-        _DashParticles.Play();
-
         _DashesLeft--;
         _DashTimeLeft = _DashLength;
         _IsDashing = true;
@@ -226,7 +219,6 @@ public class PlayerMovement : MonoBehaviour {
 
     void EndDash() {
         _IsDashing = false;
-        _DashParticles.Stop();
         _Rigidbody.gravityScale = 1;
         _Rigidbody.velocity *= _VelocityAfterDash;
     }
