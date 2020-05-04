@@ -8,6 +8,7 @@ public class PlayerVisuals : MonoBehaviour
     [Header("Stamina")]
     [SerializeField] Flash _LowStaminaIndicator;
     [SerializeField] float _LowStaminaThreshold;
+    bool _HasLowStamina = false;
 
     // Dashing
     ParticleSystem _DashParticles;
@@ -25,18 +26,11 @@ public class PlayerVisuals : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        LowStamina();
-        DashParticles();
-    }
-
-    void LowStamina()
-    {
+        //Makes the low stamina overlay flash if the player's stamina is below the threshold
         _LowStaminaIndicator.SetActive(_PlayerMovement.GetCurrentStamina() <= _LowStaminaThreshold);
-    }
 
-    void DashParticles()
-    {
-        if(_IsDashing != _PlayerMovement._IsDashing)
+        //Plays and stops the dash particles
+        if (_IsDashing != _PlayerMovement._IsDashing)
         {
             _IsDashing = !_IsDashing;
 

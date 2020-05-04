@@ -3,9 +3,13 @@ using UnityEngine.UI;
 
 public class StaminaBar : MonoBehaviour
 {
-    Image _Bar;
+    [Header("Components")]
     [SerializeField] PlayerMovement _Player;
+
+    [Header("Settings")]
     [SerializeField] [Range(0, 1)] float _LerpSpeed;
+
+    Image _Bar;
     void Awake()
     {
         _Bar = GetComponent<Image>();

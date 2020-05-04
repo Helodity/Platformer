@@ -4,12 +4,18 @@ using UnityEngine;
 
 public class Flash : MonoBehaviour
 {
+    SpriteRenderer _Renderer;
+
+    [Header("Colors")]
     [SerializeField] Color _Color1;
     [SerializeField] Color _Color2;
+    Color _CurrentColor;
+
+    [Header("Settings")]
     [SerializeField] float _FlashSpeed;
+
     float _TimeTillSwitch;
-    SpriteRenderer _Renderer;
-    bool _Active;
+    bool _IsActive;
 
     private void Awake()
     {
@@ -18,27 +24,32 @@ public class Flash : MonoBehaviour
 
     void Update()
     {
-        if (_Active)
+        if (_IsActive)
         {
             _TimeTillSwitch -= Time.deltaTime;
 
             if (_TimeTillSwitch <= 0)
             {
                 _TimeTillSwitch = _FlashSpeed;
-                if (_Renderer.color == _Color1)
-                    _Renderer.color = _Color2;
+                if (_CurrentColor == _Color1)
+                {
+                    _CurrentColor = _Color2;
+                }
                 else
-                    _Renderer.color = _Color1;
+                {
+                    _CurrentColor = _Color1;
+                }
+                _Renderer.color = _CurrentColor;
             }
 
         }
-        else
+    }
+
+    public void SetActive(bool active) {
+        _IsActive = active;
+        if (!_IsActive)
         {
             _Renderer.color = _Color1;
         }
     }
-
-    public void SetActive(bool active) => _Active = active;
-
-
 }

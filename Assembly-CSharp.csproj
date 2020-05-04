@@ -63,8 +63,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\Player\CameraFollow.cs" />
-    <Compile Include="Assets\Scripts\Player\On Player\PlayerMovement.cs" />
-    <Compile Include="Assets\Scripts\Player\On Player\PlayerVisuals.cs" />
+    <Compile Include="Assets\Scripts\Player\PlayerMovement.cs" />
+    <Compile Include="Assets\Scripts\Player\PlayerVisuals.cs" />
     <Compile Include="Assets\Scripts\Player\UI\StaminaBar.cs" />
     <Compile Include="Assets\Scripts\Universal\Flash.cs" />
     <Compile Include="Assets\Scripts\Universal\PlayerStats.cs" />

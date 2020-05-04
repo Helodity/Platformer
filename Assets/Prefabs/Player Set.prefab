@@ -579,7 +579,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 8.5
+  orthographic size: 8
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -900,11 +900,15 @@ MonoBehaviour:
     m_Bits: 256
   _TopLeftGround: {x: -0.3, y: -0.4}
   _BottomRightGround: {x: 0.3, y: -0.6}
+  _TopLeftLeftWall: {x: -0.6, y: 0.5}
+  _BottomRightLeftWall: {x: -0.4, y: -0.5}
+  _TopLeftRightWall: {x: 0.4, y: 0.5}
+  _BottomRightRightWall: {x: 0.6, y: -0.5}
   _MovementSpeed: 9
   _Acceleration: 4
   _WallJumpAcceleration: 1
   _JumpKey: 32
-  _JumpForce: 9
+  _JumpForce: 7
   _FallMultiplier: 2
   _LowJumpMultiplier: 2.5
   _WallJumpStaminaDrain: 0.5
@@ -919,9 +923,6 @@ MonoBehaviour:
   _MaxStamina: 4
   _ClimbSpeed: 3
   _ClimbAcceleration: 1.5
-  _WallCircleRadii: 0.1
-  _LeftGrabCircleOffset: {x: -0.5, y: -0.3, z: 0}
-  _RightGrabCircleOffset: {x: 0.5, y: -0.3, z: 0}
 --- !u!114 &5527267577218223511
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -935,7 +936,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _LowStaminaIndicator: {fileID: 256759359}
-  _LowStaminaThreshold: 0.4
+  _LowStaminaThreshold: 0.5
 --- !u!198 &6902583711458014324
 ParticleSystem:
   m_ObjectHideFlags: 0
