@@ -22,18 +22,12 @@ public class CameraFollow : MonoBehaviour
 
     void FixedUpdate()
     {
-        Position();
-        Size();
-    }
-
-    void Position()
-    {
+        // Follows the player's position
         Vector3 targetPosition = _Player.transform.position;
         targetPosition.z = -10;
         transform.position = Vector3.Lerp(transform.position, targetPosition, _PositionLerpSpeed);
-    }
-    void Size()
-    {
+
+        //Increases the FOV if the player is dashing
         _TargetCameraSize = _Player._IsDashing ? _DashingCameraSize : _StandardCameraSize;
         _Camera.orthographicSize = Mathf.Lerp(_Camera.orthographicSize, _TargetCameraSize, _SizeLerpSpeed);
     }
