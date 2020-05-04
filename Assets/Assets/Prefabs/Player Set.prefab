@@ -723,7 +723,7 @@ SpriteRenderer:
   m_SortingLayer: 1
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 17a6a5d78785beb438ff29890496ae84, type: 3}
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 0, b: 0, a: 0}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -935,7 +935,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _LowStaminaIndicator: {fileID: 256759359}
-  _Threshold: 0.5
+  _LowStaminaThreshold: 0.4
 --- !u!198 &6902583711458014324
 ParticleSystem:
   m_ObjectHideFlags: 0
