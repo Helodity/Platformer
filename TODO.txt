@@ -1,0 +1,26 @@
+Release 0.2 - UI update:
+Timer
+
+Release 0.3 - Items update:
+Death and respawning
+Dash Coin
+Checkpoints? - Will need scene savestates
+Timer pauses
+
+Release 0.4 - Menu update:
+Add a pause menu
+Allow players to change keybinds
+restart stage
+
+Release 0.5 - Graphics update:
+convert ground to tilemap
+Create some ground and background graphics
+create and animate player (do not use IK)
+background music
+sfx
+
+Release 0.6 - Hub update:
+Add hub
+Objects to transfer between scenes on touch and on key press
+
+
