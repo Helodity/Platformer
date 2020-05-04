@@ -41,13 +41,9 @@ public class PlayerVisuals : MonoBehaviour
             _IsDashing = !_IsDashing;
 
             if (_IsDashing)
-            {
                 _DashParticles.Play();
-            }
             else
-            {
                 _DashParticles.Stop();
-            }
         }
     }
 }
