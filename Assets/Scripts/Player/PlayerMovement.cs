@@ -75,6 +75,7 @@ public class PlayerMovement : MonoBehaviour {
     bool _IsGrabbing;
 
     void Awake() {
+        Global._Player = gameObject;
         _Rigidbody = GetComponent<Rigidbody2D>();
 
         _CurrentStamina = _MaxStamina;
@@ -302,7 +303,7 @@ public class PlayerMovement : MonoBehaviour {
         return output;
     }
 
-  #endregion
+    #endregion
 
     #region Getters
 

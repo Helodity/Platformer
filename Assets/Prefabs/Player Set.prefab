@@ -895,34 +895,39 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70645742e79cc9d48887372c322716b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _UpKey: 119
+  _DownKey: 115
+  _LeftKey: 97
+  _RightKey: 100
+  _JumpKey: 32
+  _DashKey: 106
+  _GrabKey: 107
   _WhatIsGround:
     serializedVersion: 2
     m_Bits: 256
   _TopLeftGround: {x: -0.3, y: -0.4}
   _BottomRightGround: {x: 0.3, y: -0.6}
-  _TopLeftLeftWall: {x: -0.6, y: 0.5}
+  _TopLeftLeftWall: {x: -0.6, y: 0.4}
   _BottomRightLeftWall: {x: -0.4, y: -0.5}
-  _TopLeftRightWall: {x: 0.4, y: 0.5}
+  _TopLeftRightWall: {x: 0.4, y: 0.4}
   _BottomRightRightWall: {x: 0.6, y: -0.5}
+  _DashSpeed: 30
   _MovementSpeed: 9
+  _ClimbSpeed: 3
+  _JumpForce: 7
   _Acceleration: 4
   _WallJumpAcceleration: 1
-  _JumpKey: 32
-  _JumpForce: 7
+  _ClimbAcceleration: 1.5
   _FallMultiplier: 2
   _LowJumpMultiplier: 2.5
-  _WallJumpStaminaDrain: 0.5
-  _WallJumpTime: 1
-  _DashSpeed: 30
-  _VelocityAfterDash: 0.315
+  _WallJumpDuration: 0.5
   _DashLength: 0.2
+  _VelocityAfterDash: 0.315
   _MaxDashes: 1
-  _DashKey: 106
   _IsDashing: 0
-  _GrabKey: 107
   _MaxStamina: 4
-  _ClimbSpeed: 3
-  _ClimbAcceleration: 1.5
+  _StaminaRechargeRate: 8
+  _WallJumpStaminaDrain: 0.5
 --- !u!114 &5527267577218223511
 MonoBehaviour:
   m_ObjectHideFlags: 0
