@@ -10,10 +10,17 @@ public class PlayerMovement : MonoBehaviour {
     //General parts used by multiple components
     Rigidbody2D _Rigidbody;
 
-    [Header("Ground")]
+    [Header("Ground and Wall Checks")]
     [SerializeField] LayerMask _WhatIsGround;
+    [Space]
     [SerializeField] Vector2 _TopLeftGround;
     [SerializeField] Vector2 _BottomRightGround;
+    [Space]
+    [SerializeField] Vector2 _TopLeftLeftWall;
+    [SerializeField] Vector2 _BottomRightLeftWall;
+    [Space]
+    [SerializeField] Vector2 _TopLeftRightWall;
+    [SerializeField] Vector2 _BottomRightRightWall;
 
     [Header("Walking")]
     [SerializeField] float _MovementSpeed;
@@ -49,9 +56,6 @@ public class PlayerMovement : MonoBehaviour {
     [SerializeField] float _MaxStamina;
     [SerializeField] float _ClimbSpeed;
     [SerializeField] float _ClimbAcceleration;
-    [SerializeField] float _WallCircleRadii;
-    [SerializeField] Vector3 _LeftGrabCircleOffset;
-    [SerializeField] Vector3 _RightGrabCircleOffset;
     bool _WantToGrab;
     bool _WantToRelease;
     bool _IsGrabbing;
@@ -247,41 +251,42 @@ public class PlayerMovement : MonoBehaviour {
         return Physics2D.OverlapArea(_TopLeftGround + (Vector2)transform.position, _BottomRightGround + (Vector2)transform.position, _WhatIsGround);
     }
 
-  enum Wall{ None, Left, Right }
+    enum Wall{ None, Left, Right }
 
-  Wall CanGrab() {
-    if (Physics2D.OverlapCircle(transform.position + _LeftGrabCircleOffset, _WallCircleRadii, _WhatIsGround)) {
+    Wall CanGrab() {
+        if (Physics2D.OverlapArea(_TopLeftLeftWall + (Vector2)transform.position, _BottomRightLeftWall + (Vector2)transform.position, _WhatIsGround)) {
             return Wall.Left;
-    }
-
-    if (Physics2D.OverlapCircle(transform.position + _RightGrabCircleOffset, _WallCircleRadii, _WhatIsGround)) {
-      return Wall.Right;
         }
 
-    return Wall.None;
-  }
+        if (Physics2D.OverlapArea(_TopLeftRightWall + (Vector2)transform.position, _BottomRightRightWall + (Vector2)transform.position, _WhatIsGround)) {
+            return Wall.Right;
+        }
 
-  //Returns the direction the player is pressing, ignoring the axis
-  Vector2 GetDirection() {
-    Vector2 output = Vector2.zero;
-    if (Input.GetKey (KeyCode.A))
-      output.x--;
-    if (Input.GetKey (KeyCode.D))
-      output.x++;
+        return Wall.None;
+    }
 
-    if (Input.GetKey (KeyCode.S))
-      output.y--;
-    if (Input.GetKey (KeyCode.W))
-      output.y++;
+    //Returns the direction the player is pressing, ignoring the axis
+    Vector2 GetDirection() {
+        Vector2 output = Vector2.zero;
+        if (Input.GetKey (KeyCode.A))
+            output.x--;
+        if (Input.GetKey (KeyCode.D))
+            output.x++;
 
-    return output;
-  }
+        if (Input.GetKey (KeyCode.S))
+            output.y--;
+        if (Input.GetKey (KeyCode.W))
+            output.y++;
+
+        return output;
+    }
 
   #endregion
 
-  #region Getters
+    #region Getters
 
-  public float GetCurrentStamina() { return _CurrentStamina; }
-  public float GetMaxStamina() { return _MaxStamina; }
+    public float GetCurrentStamina() { return _CurrentStamina; }
+    public float GetMaxStamina() { return _MaxStamina; }
+
     #endregion
 }
