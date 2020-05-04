@@ -8,7 +8,6 @@ public class PlayerVisuals : MonoBehaviour
     [Header("Stamina")]
     [SerializeField] Flash _LowStaminaIndicator;
     [SerializeField] float _LowStaminaThreshold;
-    bool _HasLowStamina = false;
 
     // Dashing
     ParticleSystem _DashParticles;
@@ -35,9 +34,13 @@ public class PlayerVisuals : MonoBehaviour
             _IsDashing = !_IsDashing;
 
             if (_IsDashing)
+            {
                 _DashParticles.Play();
+            }
             else
+            {
                 _DashParticles.Stop();
+            }
         }
     }
 }

@@ -3,12 +3,21 @@
 public class PlayerMovement : MonoBehaviour {
 
     /*TODO
-     * Find some better organization for variables
-     * Make Stamina not refill instantly
+     *
     */
 
     //General parts used by multiple components
     Rigidbody2D _Rigidbody;
+
+    [Header("Controls")]
+    [SerializeField] KeyCode _UpKey = KeyCode.W;
+    [SerializeField] KeyCode _DownKey = KeyCode.S;
+    [SerializeField] KeyCode _LeftKey = KeyCode.A;
+    [SerializeField] KeyCode _RightKey = KeyCode.D;
+    [Space]
+    [SerializeField] KeyCode _JumpKey;
+    [SerializeField] KeyCode _DashKey;
+    [SerializeField] KeyCode _GrabKey;
 
     [Header("Ground and Wall Checks")]
     [SerializeField] LayerMask _WhatIsGround;
@@ -22,44 +31,48 @@ public class PlayerMovement : MonoBehaviour {
     [SerializeField] Vector2 _TopLeftRightWall;
     [SerializeField] Vector2 _BottomRightRightWall;
 
-    [Header("Walking")]
+    [Header("Movement Speed")]
+    [SerializeField] float _DashSpeed;
     [SerializeField] float _MovementSpeed;
+    [SerializeField] float _ClimbSpeed;
+    [SerializeField] float _JumpForce;
+
+    [Header("Acceleration")]
     [SerializeField] float _Acceleration;
     [SerializeField] float _WallJumpAcceleration;
+    [SerializeField] float _ClimbAcceleration;
 
-    [Header("Jumping")]
-    [SerializeField] KeyCode _JumpKey = KeyCode.Space;
-    [SerializeField] float _JumpForce;
+    [Header("Improved Gravity")]
     [SerializeField] float _FallMultiplier;
     [SerializeField] float _LowJumpMultiplier;
 
-    // Wall Jumping
-    [SerializeField] float _WallJumpStaminaDrain;
-    [SerializeField] float _WallJumpTime;
+    [Header("Timers")]
+    [SerializeField] float _WallJumpDuration;
     float _WallJumpTimeLeft;
-    bool _WantToJump;
+    [SerializeField] float _DashLength;
+    float _DashTimeLeft;
 
     [Header("Dashing")]
-    [SerializeField] float _DashSpeed;
     [SerializeField] [Range(0, 1)] float _VelocityAfterDash;
-    [SerializeField] float _DashLength;
     [SerializeField] int _MaxDashes;
-    [SerializeField] KeyCode _DashKey;
-    bool _WantToDash;
     [HideInInspector] public bool _IsDashing;
-    float _DashTimeLeft;
     int _DashesLeft;
+    bool _WantToDash;
     Vector2 _DashDirection;
 
-    [Header("Wall Climb")]
-    [SerializeField] KeyCode _GrabKey = KeyCode.K;
+    [Header("Stamina")]
     [SerializeField] float _MaxStamina;
-    [SerializeField] float _ClimbSpeed;
-    [SerializeField] float _ClimbAcceleration;
+    [SerializeField] float _StaminaRechargeRate;
+    [SerializeField] float _WallJumpStaminaDrain;
+    float _CurrentStamina;
+
+    //Jumping misc
+    bool _WantToJump;
+
+    //Grabbing misc
     bool _WantToGrab;
     bool _WantToRelease;
     bool _IsGrabbing;
-    float _CurrentStamina;
 
     void Awake() {
         _Rigidbody = GetComponent<Rigidbody2D>();
@@ -76,7 +89,7 @@ public class PlayerMovement : MonoBehaviour {
             _WantToDash = true;
         }
 
-        _WantToGrab = (_WallJumpTimeLeft <= _WallJumpTime - 0.5f) && Input.GetKey(_GrabKey);
+        _WantToGrab = (_WallJumpTimeLeft <= _WallJumpDuration - 0.5f) && Input.GetKey(_GrabKey);
 
         DecrementTimers();
     }
@@ -137,7 +150,7 @@ public class PlayerMovement : MonoBehaviour {
 
     void Jump(bool offWall) {
         if (offWall) {
-            _WallJumpTimeLeft = _WallJumpTime;
+            _WallJumpTimeLeft = _WallJumpDuration;
             _CurrentStamina -= _WallJumpStaminaDrain;
 
             Vector2 dir = (GetDirection() + Vector2.up).normalized;
@@ -156,7 +169,6 @@ public class PlayerMovement : MonoBehaviour {
             StopClimbing();
             return;
         }
-
         if (_WantToGrab && !_IsGrabbing && CanGrab() != Wall.None && !IsGrounded()) {
             StartClimbing();
         }
@@ -229,7 +241,7 @@ public class PlayerMovement : MonoBehaviour {
 
     #endregion
 
-    #region misc
+    #region Misc
 
     void DecrementTimers() {
         if (_DashTimeLeft > 0) {
@@ -244,15 +256,19 @@ public class PlayerMovement : MonoBehaviour {
     void Land() {
         _WallJumpTimeLeft = 0;
         _DashesLeft = _MaxDashes;
-        _CurrentStamina = _MaxStamina;
+        if (_CurrentStamina < _MaxStamina)
+        {
+            _CurrentStamina += _StaminaRechargeRate * Time.deltaTime;
+        }
+        else
+        {
+            _CurrentStamina = _MaxStamina;
+        }
     }
 
-    bool IsGrounded() {
-        return Physics2D.OverlapArea(_TopLeftGround + (Vector2)transform.position, _BottomRightGround + (Vector2)transform.position, _WhatIsGround);
-    }
+    bool IsGrounded() => Physics2D.OverlapArea(_TopLeftGround + (Vector2)transform.position, _BottomRightGround + (Vector2)transform.position, _WhatIsGround);
 
     enum Wall{ None, Left, Right }
-
     Wall CanGrab() {
         if (Physics2D.OverlapArea(_TopLeftLeftWall + (Vector2)transform.position, _BottomRightLeftWall + (Vector2)transform.position, _WhatIsGround)) {
             return Wall.Left;
@@ -268,15 +284,20 @@ public class PlayerMovement : MonoBehaviour {
     //Returns the direction the player is pressing, ignoring the axis
     Vector2 GetDirection() {
         Vector2 output = Vector2.zero;
-        if (Input.GetKey (KeyCode.A))
-            output.x--;
-        if (Input.GetKey (KeyCode.D))
-            output.x++;
 
-        if (Input.GetKey (KeyCode.S))
+        if (Input.GetKey(_LeftKey)) {
+            output.x--;
+        }
+        if (Input.GetKey(_RightKey)) {
+            output.x++;
+        }
+
+        if (Input.GetKey(_DownKey)) {
             output.y--;
-        if (Input.GetKey (KeyCode.W))
+        }
+        if (Input.GetKey(_UpKey)) {
             output.y++;
+        }
 
         return output;
     }
@@ -285,8 +306,8 @@ public class PlayerMovement : MonoBehaviour {
 
     #region Getters
 
-    public float GetCurrentStamina() { return _CurrentStamina; }
-    public float GetMaxStamina() { return _MaxStamina; }
+    public float GetCurrentStamina() => _CurrentStamina;
+    public float GetMaxStamina() => _MaxStamina;
 
     #endregion
 }
