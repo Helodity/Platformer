@@ -19,34 +19,41 @@ public static class SaveSystem
     public static void Load()
     {
         string path = Application.persistentDataPath + "/player.uwu";
-        if (File.Exists(path))
+        try
         {
-            BinaryFormatter formatter = new BinaryFormatter();
-            FileStream stream = new FileStream(path, FileMode.Open);
+            if (File.Exists(path))
+            {
+                BinaryFormatter formatter = new BinaryFormatter();
+                FileStream stream = new FileStream(path, FileMode.Open);
+                PlayerStatsSaveState state = formatter.Deserialize(stream) as PlayerStatsSaveState;
+                stream.Close();
 
-            PlayerStatsSaveState state = formatter.Deserialize(stream) as PlayerStatsSaveState;
-            stream.Close();
+                PlayerStats._SecuredCoins = state.SecuredCoins;
 
-            PlayerStats._SecuredCoins = state.SecuredCoins;
-
-            PlayerStats._Controls[0] =  (KeyCode)state.Controls[0];
-            PlayerStats._Controls[1] =  (KeyCode)state.Controls[1];
-            PlayerStats._Controls[2] =  (KeyCode)state.Controls[2];
-            PlayerStats._Controls[3] =  (KeyCode)state.Controls[3];
-            PlayerStats._Controls[4] =  (KeyCode)state.Controls[4];
-            PlayerStats._Controls[5] =  (KeyCode)state.Controls[5];
-            PlayerStats._Controls[6] =  (KeyCode)state.Controls[6];
+                PlayerStats._Controls[0] = (KeyCode)state.Controls[0];
+                PlayerStats._Controls[1] = (KeyCode)state.Controls[1];
+                PlayerStats._Controls[2] = (KeyCode)state.Controls[2];
+                PlayerStats._Controls[3] = (KeyCode)state.Controls[3];
+                PlayerStats._Controls[4] = (KeyCode)state.Controls[4];
+                PlayerStats._Controls[5] = (KeyCode)state.Controls[5];
+                PlayerStats._Controls[6] = (KeyCode)state.Controls[6];
+            }
+            else
+            {
+                Debug.LogError("Save file not found at " + path);
+            }
         }
-        else
+        catch
         {
-            Debug.LogError("Save file not found at " + path);
+            Debug.LogError("Error encountered");
         }
     }
 }
 
+[System.Serializable]
 public class PlayerStatsSaveState
 {
-    public int[] Controls;
+    public int[] Controls = new int[7];
     public int SecuredCoins;
 
     public PlayerStatsSaveState()

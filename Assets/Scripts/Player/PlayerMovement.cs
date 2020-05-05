@@ -66,6 +66,8 @@ public class PlayerMovement : MonoBehaviour {
     bool _IsGrabbing;
 
     void Awake() {
+
+        SaveSystem.Load();
         Global._Player = gameObject;
         _Rigidbody = GetComponent<Rigidbody2D>();
 

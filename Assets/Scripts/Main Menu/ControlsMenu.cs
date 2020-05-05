@@ -13,6 +13,7 @@ public class ControlsMenu : MonoBehaviour
 
     private void Awake()
     {
+        SaveSystem.Load();
         _Position = 0;
         _DisplayText = new string[(int)PlayerStats.PlayerControls.SIZE];
 

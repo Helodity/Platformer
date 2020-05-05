@@ -15,11 +15,11 @@ public class PlayerVisuals : MonoBehaviour
 
     void Awake()
     {
-        _PlayerMovement = GetComponent<PlayerMovement>();
-        _LowStaminaIndicator.SetActive(false);
-
         _DashParticles = GetComponent<ParticleSystem>();
         _DashParticles.Stop();
+
+        _PlayerMovement = GetComponent<PlayerMovement>();
+        _LowStaminaIndicator.SetActive(false);
     }
 
     // Update is called once per frame
