@@ -8116,6 +8116,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2102677693, guid: f945cd6c0e8029447a369a3838198264, type: 3}
+      propertyPath: m_FontData.m_FontStyle
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2102677693, guid: f945cd6c0e8029447a369a3838198264, type: 3}
+      propertyPath: m_FontData.m_FontSize
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 2102677693, guid: f945cd6c0e8029447a369a3838198264, type: 3}
+      propertyPath: m_FontData.m_MaxSize
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 6902583711593579213, guid: f945cd6c0e8029447a369a3838198264,
         type: 3}
       propertyPath: m_Name
@@ -8124,12 +8136,12 @@ PrefabInstance:
     - target: {fileID: 6902583711593579250, guid: f945cd6c0e8029447a369a3838198264,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -10
+      value: -10.89
       objectReference: {fileID: 0}
     - target: {fileID: 6902583711593579250, guid: f945cd6c0e8029447a369a3838198264,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -1.34
       objectReference: {fileID: 0}
     - target: {fileID: 6902583711593579250, guid: f945cd6c0e8029447a369a3838198264,
         type: 3}

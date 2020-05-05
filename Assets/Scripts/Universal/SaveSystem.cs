@@ -29,13 +29,13 @@ public static class SaveSystem
 
             PlayerStats._SecuredCoins = state.SecuredCoins;
 
-            PlayerStats._UpKey    =  (KeyCode)state.Controls[0];
-            PlayerStats._DownKey  =  (KeyCode)state.Controls[1];
-            PlayerStats._LeftKey  =  (KeyCode)state.Controls[2];
-            PlayerStats._RightKey =  (KeyCode)state.Controls[3];
-            PlayerStats._JumpKey  =  (KeyCode)state.Controls[4];
-            PlayerStats._DashKey  =  (KeyCode)state.Controls[5];
-            PlayerStats._GrabKey  =  (KeyCode)state.Controls[6];
+            PlayerStats._Controls[0] =  (KeyCode)state.Controls[0];
+            PlayerStats._Controls[1] =  (KeyCode)state.Controls[1];
+            PlayerStats._Controls[2] =  (KeyCode)state.Controls[2];
+            PlayerStats._Controls[3] =  (KeyCode)state.Controls[3];
+            PlayerStats._Controls[4] =  (KeyCode)state.Controls[4];
+            PlayerStats._Controls[5] =  (KeyCode)state.Controls[5];
+            PlayerStats._Controls[6] =  (KeyCode)state.Controls[6];
         }
         else
         {
@@ -53,12 +53,12 @@ public class PlayerStatsSaveState
     {
         SecuredCoins = PlayerStats._SecuredCoins;
 
-        Controls[0] = (int)PlayerStats._UpKey;
-        Controls[1] = (int)PlayerStats._DownKey;
-        Controls[2] = (int)PlayerStats._LeftKey;
-        Controls[3] = (int)PlayerStats._RightKey;
-        Controls[4] = (int)PlayerStats._JumpKey;
-        Controls[5] = (int)PlayerStats._DashKey;
-        Controls[6] = (int)PlayerStats._GrabKey;
+        Controls[0] = (int)PlayerStats._Controls[0];
+        Controls[1] = (int)PlayerStats._Controls[1];
+        Controls[2] = (int)PlayerStats._Controls[2];
+        Controls[3] = (int)PlayerStats._Controls[3];
+        Controls[4] = (int)PlayerStats._Controls[4];
+        Controls[5] = (int)PlayerStats._Controls[5];
+        Controls[6] = (int)PlayerStats._Controls[6];
     }
 }

@@ -73,15 +73,15 @@ public class PlayerMovement : MonoBehaviour {
     }
 
     void Update() {
-        if (Input.GetKeyDown(PlayerStats._JumpKey) && (IsGrounded() || _IsGrabbing)) {
+        if (Input.GetKeyDown(PlayerStats._Controls[(int)PlayerStats.PlayerControls.Jump]) && (IsGrounded() || _IsGrabbing)) {
             _WantToJump = true;
         }
 
-        if (Input.GetKeyDown(PlayerStats._DashKey) && _DashesLeft > 0) {
+        if (Input.GetKeyDown(PlayerStats._Controls[(int)PlayerStats.PlayerControls.Dash]) && _DashesLeft > 0) {
             _WantToDash = true;
         }
 
-        _WantToGrab = (_WallJumpTimeLeft <= _WallJumpDuration - 0.5f) && Input.GetKey(PlayerStats._GrabKey);
+        _WantToGrab = (_WallJumpTimeLeft <= _WallJumpDuration - 0.5f) && Input.GetKey(PlayerStats._Controls[(int)PlayerStats.PlayerControls.Grab]);
 
         DecrementTimers();
     }
@@ -131,12 +131,12 @@ public class PlayerMovement : MonoBehaviour {
             return;
 
         // Increase gravity if not jumping or while falling to reduce floatiness
-       
+
         if (_Rigidbody.velocity.y < 0 || _DashesLeft < _MaxDashes)
         {
             _Rigidbody.gravityScale = _StandardMultiplier;
         }
-        else if (_Rigidbody.velocity.y > 0 && !Input.GetKey(PlayerStats._JumpKey))
+        else if (_Rigidbody.velocity.y > 0 && !Input.GetKey(PlayerStats._Controls[(int)PlayerStats.PlayerControls.Jump]))
         {
             _Rigidbody.gravityScale = _EarlyReleaseMultiplier;
         }
@@ -283,17 +283,17 @@ public class PlayerMovement : MonoBehaviour {
     Vector2 GetDirection() {
         Vector2 output = Vector2.zero;
 
-        if (Input.GetKey(PlayerStats._LeftKey)) {
+        if (Input.GetKey(PlayerStats._Controls[(int)PlayerStats.PlayerControls.Left])) {
             output.x--;
         }
-        if (Input.GetKey(PlayerStats._RightKey)) {
+        if (Input.GetKey(PlayerStats._Controls[(int)PlayerStats.PlayerControls.Right])) {
             output.x++;
         }
 
-        if (Input.GetKey(PlayerStats._DownKey)) {
+        if (Input.GetKey(PlayerStats._Controls[(int)PlayerStats.PlayerControls.Down])) {
             output.y--;
         }
-        if (Input.GetKey(PlayerStats._UpKey)) {
+        if (Input.GetKey(PlayerStats._Controls[(int)PlayerStats.PlayerControls.Up])) {
             output.y++;
         }
 

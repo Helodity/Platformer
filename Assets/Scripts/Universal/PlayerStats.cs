@@ -5,14 +5,28 @@ using UnityEngine;
 [System.Serializable]
 public static class PlayerStats
 {
-    //Controls 
-    public static KeyCode _UpKey = KeyCode.W;
-    public static KeyCode _DownKey = KeyCode.S;
-    public static KeyCode _LeftKey = KeyCode.A;
-    public static KeyCode _RightKey = KeyCode.D;
-    public static KeyCode _JumpKey = KeyCode.Space;
-    public static KeyCode _DashKey = KeyCode.J;
-    public static KeyCode _GrabKey = KeyCode.K;
+    public enum PlayerControls { Up, Down, Left, Right, Jump, Dash, Grab, SIZE}
+
+    public static KeyCode[] _Controls = new KeyCode[(int)PlayerControls.SIZE] {
+        KeyCode.W,
+        KeyCode.S,
+        KeyCode.A,
+        KeyCode.D,
+        KeyCode.Space,
+        KeyCode.J,
+        KeyCode.K};
+
+    public static bool IsKeyPressed(int control, bool getDown)
+    {
+        if (getDown)
+        {
+            return Input.GetKeyDown(_Controls[control]);
+        }
+        else
+        {
+            return Input.GetKey(_Controls[control]);
+        }
+    }
 
     //Coins that were collected in another level
     public static int _SecuredCoins;
