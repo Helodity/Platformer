@@ -1,313 +1,304 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour {
 
-    /*TODO
-     *
-    */
+  /*TODO
+   *
+   */
 
-    //General parts used by multiple components
-    Rigidbody2D _Rigidbody;
+  //General parts used by multiple components
+  Rigidbody2D _Rigidbody;
 
-    [Header("Ground and Wall Checks")]
-    [SerializeField] LayerMask _WhatIsGround;
-    [Space]
-    [SerializeField] Vector2 _TopLeftGround;
-    [SerializeField] Vector2 _BottomRightGround;
-    [Space]
-    [SerializeField] Vector2 _TopLeftLeftWall;
-    [SerializeField] Vector2 _BottomRightLeftWall;
-    [Space]
-    [SerializeField] Vector2 _TopLeftRightWall;
-    [SerializeField] Vector2 _BottomRightRightWall;
+  [Header ("Ground and Wall Checks")]
+  [SerializeField] LayerMask _WhatIsGround;
+  [Space]
+  [SerializeField] Vector2 _TopLeftGround;
+  [SerializeField] Vector2 _BottomRightGround;
+  [Space]
+  [SerializeField] Vector2 _TopLeftLeftWall;
+  [SerializeField] Vector2 _BottomRightLeftWall;
+  [Space]
+  [SerializeField] Vector2 _TopLeftRightWall;
+  [SerializeField] Vector2 _BottomRightRightWall;
 
-    [Header("Movement Speed")]
-    [SerializeField] float _DashSpeed;
-    [SerializeField] float _MovementSpeed;
-    [SerializeField] float _ClimbSpeed;
-    [SerializeField] float _JumpForce;
+  [Header ("Movement Speed")]
+  [SerializeField] float _DashSpeed;
+  [SerializeField] float _MovementSpeed;
+  [SerializeField] float _ClimbSpeed;
+  [SerializeField] float _JumpForce;
 
-    [Header("Acceleration")]
-    [SerializeField] float _Acceleration;
-    [SerializeField] float _WallJumpAcceleration;
-    [SerializeField] float _ClimbAcceleration;
+  [Header ("Acceleration")]
+  [SerializeField] float _Acceleration;
+  [SerializeField] float _WallJumpAcceleration;
+  [SerializeField] float _ClimbAcceleration;
 
-    [Header("Improved Gravity")]
-    [SerializeField] float _JumpMultiplier;
-    [SerializeField] float _StandardMultiplier;
-    [SerializeField] float _EarlyReleaseMultiplier;
+  [Header ("Improved Gravity")]
+  [SerializeField] float _JumpMultiplier;
+  [SerializeField] float _StandardMultiplier;
+  [SerializeField] float _EarlyReleaseMultiplier;
 
-    [Header("Timers")]
-    [SerializeField] float _WallJumpDuration;
-    float _WallJumpTimeLeft;
-    [SerializeField] float _DashLength;
-    float _DashTimeLeft;
+  [Header ("Timers")]
+  [SerializeField] float _WallJumpDuration;
+  float _WallJumpTimeLeft;
+  [SerializeField] float _DashLength;
+  float _DashTimeLeft;
 
-    [Header("Dashing")]
-    [SerializeField] [Range(0, 1)] float _VelocityAfterDash;
-    [SerializeField] int _MaxDashes;
-    [HideInInspector] public bool _IsDashing;
-    int _DashesLeft;
-    bool _WantToDash;
-    Vector2 _DashDirection;
+  [Header ("Dashing")]
+  [SerializeField][Range (0, 1)] float _VelocityAfterDash;
+  [SerializeField] int _MaxDashes;
+  [HideInInspector] public bool _IsDashing;
+  int _DashesLeft;
+  bool _WantToDash;
+  Vector2 _DashDirection;
 
-    [Header("Stamina")]
-    [SerializeField] float _MaxStamina;
-    [SerializeField] float _StaminaRechargeRate;
-    [SerializeField] float _WallJumpStaminaDrain;
-    float _CurrentStamina;
+  [Header ("Stamina")]
+  [SerializeField] float _MaxStamina;
+  [SerializeField] float _StaminaRechargeRate;
+  [SerializeField] float _WallJumpStaminaDrain;
+  float _CurrentStamina;
 
-    //Jumping misc
-    bool _WantToJump;
+  //Jumping misc
+  bool _WantToJump;
 
-    //Grabbing misc
-    bool _WantToGrab;
-    bool _WantToRelease;
-    bool _IsGrabbing;
+  //Grabbing misc
+  bool _WantToGrab;
+  bool _WantToRelease;
+  bool _IsGrabbing;
 
-    void Awake() {
+  void Awake () {
+    SaveSystem.Load ();
+    Global._Player = gameObject;
+    _Rigidbody = GetComponent<Rigidbody2D> ();
 
-        SaveSystem.Load();
-        Global._Player = gameObject;
-        _Rigidbody = GetComponent<Rigidbody2D>();
+    _CurrentStamina = _MaxStamina;
+  }
 
-        _CurrentStamina = _MaxStamina;
+  void Update () {
+    if (Input.GetKeyDown (PlayerStats._Controls[(int) PlayerStats.PlayerControls.Jump]) && (IsGrounded () || _IsGrabbing)) {
+      _WantToJump = true;
     }
 
-    void Update() {
-        if (Input.GetKeyDown(PlayerStats._Controls[(int)PlayerStats.PlayerControls.Jump]) && (IsGrounded() || _IsGrabbing)) {
-            _WantToJump = true;
-        }
-
-        if (Input.GetKeyDown(PlayerStats._Controls[(int)PlayerStats.PlayerControls.Dash]) && _DashesLeft > 0) {
-            _WantToDash = true;
-        }
-
-        _WantToGrab = (_WallJumpTimeLeft <= _WallJumpDuration - 0.5f) && Input.GetKey(PlayerStats._Controls[(int)PlayerStats.PlayerControls.Grab]);
-
-        DecrementTimers();
+    if (Input.GetKeyDown (PlayerStats._Controls[(int) PlayerStats.PlayerControls.Dash]) && _DashesLeft > 0) {
+      _WantToDash = true;
     }
 
-    void FixedUpdate() {
-        HandleClimbing();
-        HandleDash();
-        HandleJumping();
+    _WantToGrab = (_WallJumpTimeLeft <= _WallJumpDuration - 0.5f) && Input.GetKey (PlayerStats._Controls[(int) PlayerStats.PlayerControls.Grab]);
 
-        if (!_IsGrabbing && !_IsDashing) {
-            HandleWalking();
-        }
+    DecrementTimers ();
+  }
 
-        if (!_IsDashing && !_IsGrabbing && IsGrounded()) {
-            Land();
-        }
+  void FixedUpdate () {
+    HandleClimbing ();
+    HandleDash ();
+    HandleJumping ();
+
+    if (!_IsGrabbing && !_IsDashing) {
+      HandleWalking ();
     }
 
-    void HandleWalking() {
-        Vector2 targetVelocity = GetDirection() * _MovementSpeed;
-        Vector2 velocityChange = targetVelocity - _Rigidbody.velocity;
+    if (!_IsDashing && !_IsGrabbing && IsGrounded ()) {
+      Land ();
+    }
+  }
 
-        float acceleration = _WallJumpTimeLeft <= 0 ? _Acceleration : _WallJumpAcceleration;
+  void HandleWalking () {
+    Vector2 targetVelocity = GetDirection () * _MovementSpeed;
+    Vector2 velocityChange = targetVelocity - _Rigidbody.velocity;
 
-        velocityChange.x = Mathf.Clamp(velocityChange.x, -acceleration, acceleration);
-        velocityChange.y = 0;
+    float acceleration = _WallJumpTimeLeft <= 0 ? _Acceleration : _WallJumpAcceleration;
 
-        _Rigidbody.velocity += velocityChange;
+    velocityChange.x = Mathf.Clamp (velocityChange.x, -acceleration, acceleration);
+    velocityChange.y = 0;
+
+    _Rigidbody.velocity += velocityChange;
+  }
+
+  void HandleJumping () {
+    if (_WantToJump) {
+      //Store _IsGrabbing as we want to know whether we're doing a wall jump, and StopClimbing() sets _IsGrabbing to false
+      bool wallJump = _IsGrabbing;
+
+      if (_IsGrabbing) {
+        StopClimbing ();
+      }
+
+      Jump (wallJump);
+
+      _WantToJump = false;
     }
 
-    void HandleJumping() {
-        if (_WantToJump) {
-            //Store _IsGrabbing as we want to know whether we're doing a wall jump, and StopClimbing() sets _IsGrabbing to false
-            bool wallJump = _IsGrabbing;
+    // Dashing and grabbing disable gravity, so we need to skip setting the gravity scale
+    if (_IsDashing || (_IsGrabbing && _CurrentStamina > 0))
+      return;
 
-            if (_IsGrabbing) {
-                StopClimbing();
-            }
+    // Increase gravity if not jumping or while falling to reduce floatiness
 
-            Jump(wallJump);
+    if (_Rigidbody.velocity.y < 0 || _DashesLeft < _MaxDashes) {
+      _Rigidbody.gravityScale = _StandardMultiplier;
+    } else if (_Rigidbody.velocity.y > 0 && !Input.GetKey (PlayerStats._Controls[(int) PlayerStats.PlayerControls.Jump])) {
+      _Rigidbody.gravityScale = _EarlyReleaseMultiplier;
+    } else {
+      _Rigidbody.gravityScale = _JumpMultiplier;
+    }
+  }
 
-            _WantToJump = false;
-        }
+  void Jump (bool offWall) {
+    if (offWall) {
+      _WallJumpTimeLeft = _WallJumpDuration;
+      _CurrentStamina -= _WallJumpStaminaDrain;
 
-        // Dashing and grabbing disable gravity, so we need to skip setting the gravity scale
-        if (_IsDashing || (_IsGrabbing && _CurrentStamina > 0))
-            return;
+      Vector2 dir = (GetDirection () + Vector2.up).normalized;
+      _Rigidbody.AddForce (dir * _JumpForce, ForceMode2D.Impulse);
+      return;
+    }
+    //If the player is falling, add extra force so we get the same lift
+    float fallCounter = _Rigidbody.velocity.y < 0 ? -_Rigidbody.velocity.y : 0;
+    _Rigidbody.AddForce (Vector2.up * (_JumpForce + fallCounter), ForceMode2D.Impulse);
+  }
 
-        // Increase gravity if not jumping or while falling to reduce floatiness
+  #region Wall Climbing
 
-        if (_Rigidbody.velocity.y < 0 || _DashesLeft < _MaxDashes)
-        {
-            _Rigidbody.gravityScale = _StandardMultiplier;
-        }
-        else if (_Rigidbody.velocity.y > 0 && !Input.GetKey(PlayerStats._Controls[(int)PlayerStats.PlayerControls.Jump]))
-        {
-            _Rigidbody.gravityScale = _EarlyReleaseMultiplier;
-        }
-        else
-        {
-            _Rigidbody.gravityScale = _JumpMultiplier;
-        }
+  void HandleClimbing () {
+    if (!_WantToGrab || CanGrab () == Wall.None || IsGrounded ()) {
+      StopClimbing ();
+      return;
+    }
+    if (_WantToGrab && !_IsGrabbing && CanGrab () != Wall.None && !IsGrounded () && !_IsDashing) {
+      StartClimbing ();
     }
 
-    void Jump(bool offWall) {
-        if (offWall) {
-            _WallJumpTimeLeft = _WallJumpDuration;
-            _CurrentStamina -= _WallJumpStaminaDrain;
+    if (_CurrentStamina > 0) {
+      _CurrentStamina -= Time.deltaTime;
+      Vector2 targetVelocity = GetDirection () * _ClimbSpeed;
+      Vector2 velocityChange = targetVelocity - _Rigidbody.velocity;
 
-            Vector2 dir = (GetDirection() + Vector2.up).normalized;
-            _Rigidbody.AddForce(dir * _JumpForce, ForceMode2D.Impulse);
-            return;
-        }
-        //If the player is falling, add extra force so we get the same lift
-        float fallCounter = _Rigidbody.velocity.y < 0 ? -_Rigidbody.velocity.y : 0;
-        _Rigidbody.AddForce(Vector2.up * (_JumpForce + fallCounter), ForceMode2D.Impulse);
+      velocityChange.y = Mathf.Clamp (velocityChange.y, -_ClimbAcceleration, _ClimbAcceleration);
+      velocityChange.x = 0;
+
+      _Rigidbody.velocity += velocityChange;
+      return;
     }
 
-    #region Wall Climbing
+    _Rigidbody.gravityScale = 1;
+  }
 
-    void HandleClimbing() {
-        if (!_WantToGrab || CanGrab() == Wall.None || IsGrounded()) {
-            StopClimbing();
-            return;
-        }
-        if (_WantToGrab && !_IsGrabbing && CanGrab() != Wall.None && !IsGrounded() && !_IsDashing) {
-            StartClimbing();
-        }
+  void StartClimbing () {
+    _IsGrabbing = true;
+    _Rigidbody.gravityScale = 0;
+  }
 
-        if (_CurrentStamina > 0) {
-            _CurrentStamina -= Time.deltaTime;
-            Vector2 targetVelocity = GetDirection() * _ClimbSpeed;
-            Vector2 velocityChange = targetVelocity - _Rigidbody.velocity;
+  void StopClimbing () {
+    _IsGrabbing = false;
+    _Rigidbody.gravityScale = 1;
+  }
 
-            velocityChange.y = Mathf.Clamp(velocityChange.y, -_ClimbAcceleration, _ClimbAcceleration);
-            velocityChange.x = 0;
+  #endregion
 
-            _Rigidbody.velocity += velocityChange;
-            return;
-        }
-
-        _Rigidbody.gravityScale = 1;
+  #region Dashing
+  void HandleDash () {
+    if (_DashTimeLeft <= 0 && _IsDashing) {
+      EndDash ();
+      return;
     }
 
-    void StartClimbing() {
-        _IsGrabbing = true;
-        _Rigidbody.gravityScale = 0;
+    if (_IsDashing) {
+      _Rigidbody.velocity = _DashDirection * _DashSpeed;
+      return;
     }
 
-    void StopClimbing() {
-        _IsGrabbing = false;
-        _Rigidbody.gravityScale = 1;
+    if (_WantToDash && _DashesLeft > 0) {
+      StartDash ();
+    }
+  }
+
+  void StartDash () {
+    _DashDirection = GetDirection ().normalized;
+    _WantToDash = false;
+
+    //Prevent the player from dashing in place
+    if (_DashDirection == Vector2.zero)
+      return;
+
+    _DashesLeft--;
+    _DashTimeLeft = _DashLength;
+    _IsDashing = true;
+
+    _Rigidbody.gravityScale = 0;
+    _Rigidbody.velocity = Vector2.zero;
+  }
+
+  void EndDash () {
+    _IsDashing = false;
+    _Rigidbody.gravityScale = 1;
+    _Rigidbody.velocity *= _VelocityAfterDash;
+  }
+
+  #endregion
+
+  #region Misc
+
+  void DecrementTimers () {
+    if (_DashTimeLeft > 0) {
+      _DashTimeLeft -= Time.deltaTime;
     }
 
-    #endregion
+    if (_WallJumpTimeLeft > 0) {
+      _WallJumpTimeLeft -= Time.deltaTime;
+    }
+  }
 
-    #region Dashing
-    void HandleDash() {
-        if (_DashTimeLeft <= 0 && _IsDashing) {
-            EndDash();
-            return;
-        }
+  void Land () {
+    _WallJumpTimeLeft = 0;
+    _DashesLeft = _MaxDashes;
+    if (_CurrentStamina < _MaxStamina) {
+      _CurrentStamina += _StaminaRechargeRate * Time.deltaTime;
+    } else {
+      _CurrentStamina = _MaxStamina;
+    }
+  }
 
-        if (_IsDashing) {
-            _Rigidbody.velocity = _DashDirection * _DashSpeed;
-            return;
-        }
+  bool IsGrounded () => Physics2D.OverlapArea (_TopLeftGround + (Vector2) transform.position, _BottomRightGround + (Vector2) transform.position, _WhatIsGround);
 
-        if (_WantToDash && _DashesLeft > 0) {
-            StartDash();
-        }
+  enum Wall { None, Left, Right }
+  Wall CanGrab () {
+    if (Physics2D.OverlapArea (_TopLeftLeftWall + (Vector2) transform.position, _BottomRightLeftWall + (Vector2) transform.position, _WhatIsGround)) {
+      return Wall.Left;
     }
 
-    void StartDash() {
-        _DashDirection = GetDirection().normalized;
-        _WantToDash = false;
-
-        //Prevent the player from dashing in place
-        if (_DashDirection == Vector2.zero)
-            return;
-
-        _DashesLeft--;
-        _DashTimeLeft = _DashLength;
-        _IsDashing = true;
-
-        _Rigidbody.gravityScale = 0;
-        _Rigidbody.velocity = Vector2.zero;
+    if (Physics2D.OverlapArea (_TopLeftRightWall + (Vector2) transform.position, _BottomRightRightWall + (Vector2) transform.position, _WhatIsGround)) {
+      return Wall.Right;
     }
 
-    void EndDash() {
-        _IsDashing = false;
-        _Rigidbody.gravityScale = 1;
-        _Rigidbody.velocity *= _VelocityAfterDash;
+    return Wall.None;
+  }
+
+  //Returns the direction the player is pressing, ignoring the axis
+  Vector2 GetDirection () {
+    Vector2 output = Vector2.zero;
+
+    if (Input.GetKey (PlayerStats._Controls[(int) PlayerStats.PlayerControls.Left])) {
+      output.x--;
+    }
+    if (Input.GetKey (PlayerStats._Controls[(int) PlayerStats.PlayerControls.Right])) {
+      output.x++;
     }
 
-    #endregion
-
-    #region Misc
-
-    void DecrementTimers() {
-        if (_DashTimeLeft > 0) {
-            _DashTimeLeft -= Time.deltaTime;
-        }
-
-        if (_WallJumpTimeLeft > 0) {
-            _WallJumpTimeLeft -= Time.deltaTime;
-        }
+    if (Input.GetKey (PlayerStats._Controls[(int) PlayerStats.PlayerControls.Down])) {
+      output.y--;
+    }
+    if (Input.GetKey (PlayerStats._Controls[(int) PlayerStats.PlayerControls.Up])) {
+      output.y++;
     }
 
-    void Land() {
-        _WallJumpTimeLeft = 0;
-        _DashesLeft = _MaxDashes;
-        if (_CurrentStamina < _MaxStamina)
-        {
-            _CurrentStamina += _StaminaRechargeRate * Time.deltaTime;
-        }
-        else
-        {
-            _CurrentStamina = _MaxStamina;
-        }
-    }
+    return output;
+  }
 
-    bool IsGrounded() => Physics2D.OverlapArea(_TopLeftGround + (Vector2)transform.position, _BottomRightGround + (Vector2)transform.position, _WhatIsGround);
+  #endregion
 
-    enum Wall{ None, Left, Right }
-    Wall CanGrab() {
-        if (Physics2D.OverlapArea(_TopLeftLeftWall + (Vector2)transform.position, _BottomRightLeftWall + (Vector2)transform.position, _WhatIsGround)) {
-            return Wall.Left;
-        }
+  #region Getters
 
-        if (Physics2D.OverlapArea(_TopLeftRightWall + (Vector2)transform.position, _BottomRightRightWall + (Vector2)transform.position, _WhatIsGround)) {
-            return Wall.Right;
-        }
+  public float GetCurrentStamina () => _CurrentStamina;
+  public float GetMaxStamina () => _MaxStamina;
 
-        return Wall.None;
-    }
-
-    //Returns the direction the player is pressing, ignoring the axis
-    Vector2 GetDirection() {
-        Vector2 output = Vector2.zero;
-
-        if (Input.GetKey(PlayerStats._Controls[(int)PlayerStats.PlayerControls.Left])) {
-            output.x--;
-        }
-        if (Input.GetKey(PlayerStats._Controls[(int)PlayerStats.PlayerControls.Right])) {
-            output.x++;
-        }
-
-        if (Input.GetKey(PlayerStats._Controls[(int)PlayerStats.PlayerControls.Down])) {
-            output.y--;
-        }
-        if (Input.GetKey(PlayerStats._Controls[(int)PlayerStats.PlayerControls.Up])) {
-            output.y++;
-        }
-
-        return output;
-    }
-
-    #endregion
-
-    #region Getters
-
-    public float GetCurrentStamina() => _CurrentStamina;
-    public float GetMaxStamina() => _MaxStamina;
-
-    #endregion
+  #endregion
 }
