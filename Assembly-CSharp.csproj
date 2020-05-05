@@ -70,6 +70,8 @@
     <Compile Include="Assets\Scripts\Player\PlayerVisuals.cs" />
     <Compile Include="Assets\Scripts\Universal\Flash.cs" />
     <Compile Include="Assets\Scripts\Universal\Global.cs" />
+    <Compile Include="Assets\Scripts\Universal\PlayerStats.cs" />
+    <Compile Include="Assets\Scripts\Universal\SaveSystem.cs" />
     <Reference Include="Unity.Timeline.Editor">
       <HintPath>C:/Users/Kaelan/Documents/GitHub/Platformer/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
     </Reference>

@@ -14,6 +14,7 @@ public class PlayerUI : MonoBehaviour
     [Header("Timer")]
     [SerializeField] Text _TimerText;
     float _Timer;
+    bool _TimerPaused = false;
 
     void FixedUpdate()
     {
@@ -21,7 +22,27 @@ public class PlayerUI : MonoBehaviour
 
         _CoinText.text = Global.GetTotalCoins().ToString();
 
-        _Timer += Time.deltaTime;
-        _TimerText.text = "Time: " +MathUtils.RoundToPlace(_Timer, 1);
+        if (!_TimerPaused)
+        {
+            _Timer += Time.deltaTime;
+            _TimerText.text = "Time: " + MathUtils.RoundToPlace(_Timer, 2);
+        }
     }
+
+
+    #region Timer UI Functions
+    public void StartTimer()
+    {
+        _TimerPaused = false;
+    }
+    public void PauseTimer()
+    {
+        _TimerPaused = true;
+    }
+    public void StopTimer()
+    {
+        _Timer = 0;
+        _TimerPaused = true;
+    }
+    #endregion
 }
