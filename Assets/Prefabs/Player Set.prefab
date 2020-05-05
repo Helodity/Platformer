@@ -27,7 +27,7 @@ RectTransform:
   m_GameObject: {fileID: 662162606}
   m_LocalRotation: {x: 0, y: 0, z: -0.258819, w: 0.9659259}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.9, y: 0.9, z: 1}
   m_Children: []
   m_Father: {fileID: 6232320336986310827}
   m_RootOrder: 1
@@ -108,6 +108,7 @@ RectTransform:
   - {fileID: 1236359987}
   - {fileID: 1828774886}
   - {fileID: 1633151052}
+  - {fileID: 2102677692}
   m_Father: {fileID: 6902583711033084754}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -0.15300001}
@@ -192,6 +193,7 @@ MonoBehaviour:
   _StaminaLerpSpeed: 0.251
   _StaminaBar: {fileID: 662162608}
   _CoinText: {fileID: 1827551980}
+  _TimerText: {fileID: 2102677693}
 --- !u!1 &1236359986
 GameObject:
   m_ObjectHideFlags: 0
@@ -374,7 +376,7 @@ RectTransform:
   m_GameObject: {fileID: 1795393944}
   m_LocalRotation: {x: 0, y: 0, z: -0.258819, w: 0.9659259}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.9, y: 0.9, z: 1}
   m_Children: []
   m_Father: {fileID: 6232320336986310827}
   m_RootOrder: 2
@@ -584,6 +586,83 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &2102677691
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2102677692}
+  - component: {fileID: 2102677694}
+  - component: {fileID: 2102677693}
+  m_Layer: 5
+  m_Name: Timer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &2102677692
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2102677691}
+  m_LocalRotation: {x: 0, y: 0, z: -0.27563733, w: 0.96126175}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1189883419}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -32}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 632, y: 334}
+  m_SizeDelta: {x: 311.98856, y: 75.36976}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &2102677694
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2102677691}
+  m_CullTransparentMesh: 0
+--- !u!114 &2102677693
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2102677691}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 40
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 4
+    m_MaxSize: 40
+    m_Alignment: 3
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: 'Time: 0:00'
 --- !u!1 &5975455262400943665
 GameObject:
   m_ObjectHideFlags: 0
@@ -611,7 +690,7 @@ RectTransform:
   m_GameObject: {fileID: 5975455262400943665}
   m_LocalRotation: {x: 0, y: 0, z: -0.258819, w: 0.9659259}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.9, y: 0.9, z: 1}
   m_Children: []
   m_Father: {fileID: 6232320336986310827}
   m_RootOrder: 0
@@ -885,7 +964,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _Color1: {r: 1, g: 0, b: 0, a: 0}
-  _Color2: {r: 1, g: 0, b: 0, a: 1}
+  _Color2: {r: 1, g: 0, b: 0, a: 0.7882353}
   _FlashSpeed: 0.2
 --- !u!1 &6902583711458014285
 GameObject:
@@ -1057,8 +1136,9 @@ MonoBehaviour:
   _Acceleration: 4
   _WallJumpAcceleration: 1
   _ClimbAcceleration: 1.5
-  _FallMultiplier: 2
-  _LowJumpMultiplier: 2.5
+  _JumpMultiplier: 1
+  _StandardMultiplier: 2
+  _EarlyReleaseMultiplier: 2.5
   _WallJumpDuration: 0.5
   _DashLength: 0.2
   _VelocityAfterDash: 0.315

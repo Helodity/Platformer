@@ -43,8 +43,9 @@ public class PlayerMovement : MonoBehaviour {
     [SerializeField] float _ClimbAcceleration;
 
     [Header("Improved Gravity")]
-    [SerializeField] float _FallMultiplier;
-    [SerializeField] float _LowJumpMultiplier;
+    [SerializeField] float _JumpMultiplier;
+    [SerializeField] float _StandardMultiplier;
+    [SerializeField] float _EarlyReleaseMultiplier;
 
     [Header("Timers")]
     [SerializeField] float _WallJumpDuration;
@@ -143,15 +144,15 @@ public class PlayerMovement : MonoBehaviour {
        
         if (_Rigidbody.velocity.y < 0 || _DashesLeft < _MaxDashes)
         {
-            _Rigidbody.gravityScale = _FallMultiplier;
+            _Rigidbody.gravityScale = _StandardMultiplier;
         }
         else if (_Rigidbody.velocity.y > 0 && !Input.GetKey(_JumpKey))
         {
-            _Rigidbody.gravityScale = _LowJumpMultiplier;
+            _Rigidbody.gravityScale = _EarlyReleaseMultiplier;
         }
         else
         {
-            _Rigidbody.gravityScale = 1;
+            _Rigidbody.gravityScale = _JumpMultiplier;
         }
     }
 
@@ -176,7 +177,7 @@ public class PlayerMovement : MonoBehaviour {
             StopClimbing();
             return;
         }
-        if (_WantToGrab && !_IsGrabbing && CanGrab() != Wall.None && !IsGrounded()) {
+        if (_WantToGrab && !_IsGrabbing && CanGrab() != Wall.None && !IsGrounded() && !_IsDashing) {
             StartClimbing();
         }
 
