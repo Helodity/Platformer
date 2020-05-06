@@ -25,7 +25,6 @@ public class PlayerMovement : MonoBehaviour {
   [SerializeField] float _DashSpeed;
   [SerializeField] float _MovementSpeed;
   [SerializeField] float _ClimbSpeed;
-  [SerializeField] float _JumpForce;
 
   [Header ("Acceleration")]
   [SerializeField] float _Acceleration;
@@ -57,6 +56,8 @@ public class PlayerMovement : MonoBehaviour {
 
   [Header("Jumping")]
   [SerializeField] [Range (0, 1)] float _JumpEndVelocityMultiplier;
+  [SerializeField] float _JumpForce;
+  [SerializeField] float _WallJumpForce;
   [SerializeField] float _JumpInputDuration;
   float _JumpInputDurationR;
 
@@ -83,7 +84,7 @@ public class PlayerMovement : MonoBehaviour {
       _WantToDash = true;
     }
 
-    _WantToGrab = (_WallJumpDurationR <= _WallJumpDuration - 0.5f) && Input.GetKey (PlayerStats._Controls[(int) PlayerStats.PlayerControls.Grab]);
+    _WantToGrab = _WallJumpDurationR <= 0 && Input.GetKey (PlayerStats._Controls[(int) PlayerStats.PlayerControls.Grab]);
 
     DecrementTimers ();
   }
@@ -128,7 +129,6 @@ public class PlayerMovement : MonoBehaviour {
       _JumpInputDurationR = 0;
     }
 
-    // Dashing and grabbing disable gravity, so we need to skip setting the gravity scale
     if (_IsDashing || (_IsGrabbing && _CurrentStamina > 0))
       return;
 
@@ -144,7 +144,7 @@ public class PlayerMovement : MonoBehaviour {
       _CurrentStamina -= _WallJumpStaminaDrain;
 
       Vector2 dir = (GetDirection () + Vector2.up).normalized;
-      _Rigidbody.AddForce (dir * _JumpForce, ForceMode2D.Impulse);
+      _Rigidbody.velocity = dir * _WallJumpForce;
       return;
     }
 

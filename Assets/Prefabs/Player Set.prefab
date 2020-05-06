@@ -1108,14 +1108,11 @@ MonoBehaviour:
   _DashSpeed: 30
   _MovementSpeed: 9
   _ClimbSpeed: 3
-  _JumpForce: 7
   _Acceleration: 4
   _WallJumpAcceleration: 1
   _ClimbAcceleration: 1.5
-  _JumpMultiplier: 1
-  _StandardMultiplier: 2
-  _EarlyReleaseMultiplier: 2.5
-  _WallJumpDuration: 0.5
+  _GravityScale: 2
+  _WallJumpDuration: 0.4
   _DashDuration: 0.2
   _VelocityAfterDash: 0.315
   _MaxDashes: 1
@@ -1123,7 +1120,9 @@ MonoBehaviour:
   _MaxStamina: 4
   _StaminaRechargeRate: 8
   _WallJumpStaminaDrain: 0.5
-  _JumpEndVelocityMultiplier: 0
+  _JumpEndVelocityMultiplier: 0.678
+  _JumpForce: 10
+  _WallJumpForce: 10
   _JumpInputDuration: 0.1
 --- !u!114 &5527267577218223511
 MonoBehaviour:
