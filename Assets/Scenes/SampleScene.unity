@@ -8026,31 +8026,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 6902583711458014326, guid: f945cd6c0e8029447a369a3838198264,
-        type: 3}
-      propertyPath: _GravityScale
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 6902583711458014326, guid: f945cd6c0e8029447a369a3838198264,
-        type: 3}
-      propertyPath: _JumpEndVelocityMultiplier
-      value: 0.678
-      objectReference: {fileID: 0}
-    - target: {fileID: 6902583711458014326, guid: f945cd6c0e8029447a369a3838198264,
-        type: 3}
-      propertyPath: _WallJumpForce
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 6902583711458014326, guid: f945cd6c0e8029447a369a3838198264,
-        type: 3}
-      propertyPath: _JumpForce
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 6902583711458014326, guid: f945cd6c0e8029447a369a3838198264,
-        type: 3}
-      propertyPath: _WallJumpDuration
-      value: 0.4
-      objectReference: {fileID: 0}
     - target: {fileID: 6902583711593579213, guid: f945cd6c0e8029447a369a3838198264,
         type: 3}
       propertyPath: m_Name
