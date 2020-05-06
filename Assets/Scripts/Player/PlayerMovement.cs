@@ -158,7 +158,7 @@ public class PlayerMovement : MonoBehaviour {
       StopClimbing ();
       return;
     }
-    if (_WantToGrab && !_IsGrabbing && CanGrab () != Wall.None && !IsGrounded () && !_IsDashing) {
+    if (_WantToGrab && !_IsGrabbing && CanGrab () != Wall.None && !IsGrounded () && !_IsDashing && _CurrentStamina > 0) {
       StartClimbing ();
     }
 
