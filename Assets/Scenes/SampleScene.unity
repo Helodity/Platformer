@@ -8043,6 +8043,26 @@ PrefabInstance:
       propertyPath: m_Mass
       value: 0.67
       objectReference: {fileID: 0}
+    - target: {fileID: 6902583711458014326, guid: f945cd6c0e8029447a369a3838198264,
+        type: 3}
+      propertyPath: _JumpInputDuration
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6902583711458014326, guid: f945cd6c0e8029447a369a3838198264,
+        type: 3}
+      propertyPath: _BottomRightGround.y
+      value: -0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6902583711458014326, guid: f945cd6c0e8029447a369a3838198264,
+        type: 3}
+      propertyPath: _BottomRightLeftWall.y
+      value: -0.45
+      objectReference: {fileID: 0}
+    - target: {fileID: 6902583711458014326, guid: f945cd6c0e8029447a369a3838198264,
+        type: 3}
+      propertyPath: _BottomRightRightWall.y
+      value: -0.45
+      objectReference: {fileID: 0}
     - target: {fileID: 6902583711593579213, guid: f945cd6c0e8029447a369a3838198264,
         type: 3}
       propertyPath: m_Name

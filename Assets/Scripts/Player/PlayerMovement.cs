@@ -39,9 +39,9 @@ public class PlayerMovement : MonoBehaviour {
 
   [Header ("Timers")]
   [SerializeField] float _WallJumpDuration;
-  float _WallJumpTimeLeft;
-  [SerializeField] float _DashLength;
-  float _DashTimeLeft;
+  float _WallJumpDurationR;
+  [SerializeField] float _DashDuration;
+  float _DashDurationR;
 
   [Header ("Dashing")]
   [SerializeField][Range (0, 1)] float _VelocityAfterDash;
@@ -57,8 +57,9 @@ public class PlayerMovement : MonoBehaviour {
   [SerializeField] float _WallJumpStaminaDrain;
   float _CurrentStamina;
 
-  //Jumping misc
-  bool _WantToJump;
+  [Header("Jumping")]
+  [SerializeField] float _JumpInputDuration;
+  float _JumpInputDurationR;
 
   //Grabbing misc
   bool _WantToGrab;
@@ -74,15 +75,15 @@ public class PlayerMovement : MonoBehaviour {
   }
 
   void Update () {
-    if (Input.GetKeyDown (PlayerStats._Controls[(int) PlayerStats.PlayerControls.Jump]) && (IsGrounded () || _IsGrabbing)) {
-      _WantToJump = true;
+    if (Input.GetKeyDown (PlayerStats._Controls[(int) PlayerStats.PlayerControls.Jump])) {
+      _JumpInputDurationR = _JumpInputDuration;
     }
 
     if (Input.GetKeyDown (PlayerStats._Controls[(int) PlayerStats.PlayerControls.Dash]) && _DashesLeft > 0) {
       _WantToDash = true;
     }
 
-    _WantToGrab = (_WallJumpTimeLeft <= _WallJumpDuration - 0.5f) && Input.GetKey (PlayerStats._Controls[(int) PlayerStats.PlayerControls.Grab]);
+    _WantToGrab = (_WallJumpDurationR <= _WallJumpDuration - 0.5f) && Input.GetKey (PlayerStats._Controls[(int) PlayerStats.PlayerControls.Grab]);
 
     DecrementTimers ();
   }
@@ -105,7 +106,7 @@ public class PlayerMovement : MonoBehaviour {
     Vector2 targetVelocity = GetDirection () * _MovementSpeed;
     Vector2 velocityChange = targetVelocity - _Rigidbody.velocity;
 
-    float acceleration = _WallJumpTimeLeft <= 0 ? _Acceleration : _WallJumpAcceleration;
+    float acceleration = _WallJumpDurationR <= 0 ? _Acceleration : _WallJumpAcceleration;
 
     velocityChange.x = Mathf.Clamp (velocityChange.x, -acceleration, acceleration);
     velocityChange.y = 0;
@@ -114,7 +115,7 @@ public class PlayerMovement : MonoBehaviour {
   }
 
   void HandleJumping () {
-    if (_WantToJump) {
+    if (_JumpInputDurationR > 0 && (IsGrounded() || _IsGrabbing)) {
       //Store _IsGrabbing as we want to know whether we're doing a wall jump, and StopClimbing() sets _IsGrabbing to false
       bool wallJump = _IsGrabbing;
 
@@ -124,7 +125,7 @@ public class PlayerMovement : MonoBehaviour {
 
       Jump (wallJump);
 
-      _WantToJump = false;
+      _JumpInputDurationR = 0;
     }
 
     // Dashing and grabbing disable gravity, so we need to skip setting the gravity scale
@@ -144,7 +145,7 @@ public class PlayerMovement : MonoBehaviour {
 
   void Jump (bool offWall) {
     if (offWall) {
-      _WallJumpTimeLeft = _WallJumpDuration;
+      _WallJumpDurationR = _WallJumpDuration;
       _CurrentStamina -= _WallJumpStaminaDrain;
 
       Vector2 dir = (GetDirection () + Vector2.up).normalized;
@@ -195,7 +196,7 @@ public class PlayerMovement : MonoBehaviour {
 
   #region Dashing
   void HandleDash () {
-    if (_DashTimeLeft <= 0 && _IsDashing) {
+    if (_DashDurationR <= 0 && _IsDashing) {
       EndDash ();
       return;
     }
@@ -219,7 +220,7 @@ public class PlayerMovement : MonoBehaviour {
       return;
 
     _DashesLeft--;
-    _DashTimeLeft = _DashLength;
+    _DashDurationR = _DashDuration;
     _IsDashing = true;
 
     _Rigidbody.gravityScale = 0;
@@ -237,17 +238,21 @@ public class PlayerMovement : MonoBehaviour {
   #region Misc
 
   void DecrementTimers () {
-    if (_DashTimeLeft > 0) {
-      _DashTimeLeft -= Time.deltaTime;
+    if (_DashDurationR > 0) {
+      _DashDurationR -= Time.deltaTime;
     }
 
-    if (_WallJumpTimeLeft > 0) {
-      _WallJumpTimeLeft -= Time.deltaTime;
+    if (_WallJumpDurationR > 0) {
+      _WallJumpDurationR -= Time.deltaTime;
+    }
+
+    if(_JumpInputDurationR > 0){
+      _JumpInputDurationR -= Time.deltaTime;
     }
   }
 
   void Land () {
-    _WallJumpTimeLeft = 0;
+    _WallJumpDurationR = 0;
     _DashesLeft = _MaxDashes;
     if (_CurrentStamina < _MaxStamina) {
       _CurrentStamina += _StaminaRechargeRate * Time.deltaTime;
