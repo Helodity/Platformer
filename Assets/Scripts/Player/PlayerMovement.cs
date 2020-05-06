@@ -32,10 +32,8 @@ public class PlayerMovement : MonoBehaviour {
   [SerializeField] float _WallJumpAcceleration;
   [SerializeField] float _ClimbAcceleration;
 
-  [Header ("Improved Gravity")]
-  [SerializeField] float _JumpMultiplier;
-  [SerializeField] float _StandardMultiplier;
-  [SerializeField] float _EarlyReleaseMultiplier;
+  [Header("Gravity")]
+  [SerializeField] float _GravityScale;
 
   [Header ("Timers")]
   [SerializeField] float _WallJumpDuration;
@@ -44,7 +42,7 @@ public class PlayerMovement : MonoBehaviour {
   float _DashDurationR;
 
   [Header ("Dashing")]
-  [SerializeField][Range (0, 1)] float _VelocityAfterDash;
+  [SerializeField] [Range (0, 1)] float _VelocityAfterDash;
   [SerializeField] int _MaxDashes;
   [HideInInspector] public bool _IsDashing;
   int _DashesLeft;
@@ -58,6 +56,7 @@ public class PlayerMovement : MonoBehaviour {
   float _CurrentStamina;
 
   [Header("Jumping")]
+  [SerializeField] [Range (0, 1)] float _JumpEndVelocityMultiplier;
   [SerializeField] float _JumpInputDuration;
   float _JumpInputDurationR;
 
@@ -70,6 +69,7 @@ public class PlayerMovement : MonoBehaviour {
     SaveSystem.Load ();
     Global._Player = gameObject;
     _Rigidbody = GetComponent<Rigidbody2D> ();
+    _Rigidbody.gravityScale = _GravityScale;
 
     _CurrentStamina = _MaxStamina;
   }
@@ -132,14 +132,9 @@ public class PlayerMovement : MonoBehaviour {
     if (_IsDashing || (_IsGrabbing && _CurrentStamina > 0))
       return;
 
-    // Increase gravity if not jumping or while falling to reduce floatiness
-
-    if (_Rigidbody.velocity.y < 0 || _DashesLeft < _MaxDashes) {
-      _Rigidbody.gravityScale = _StandardMultiplier;
-    } else if (_Rigidbody.velocity.y > 0 && !Input.GetKey (PlayerStats._Controls[(int) PlayerStats.PlayerControls.Jump])) {
-      _Rigidbody.gravityScale = _EarlyReleaseMultiplier;
-    } else {
-      _Rigidbody.gravityScale = _JumpMultiplier;
+    if (_Rigidbody.velocity.y > 0 && Input.GetKeyUp(PlayerStats._Controls[(int)PlayerStats.PlayerControls.Jump]))
+    {
+      _Rigidbody.velocity = new Vector2(_Rigidbody.velocity.x, _Rigidbody.velocity.y * _JumpEndVelocityMultiplier);
     }
   }
 
@@ -179,7 +174,7 @@ public class PlayerMovement : MonoBehaviour {
       return;
     }
 
-    _Rigidbody.gravityScale = 1;
+    _Rigidbody.gravityScale = _GravityScale;
   }
 
   void StartClimbing () {
@@ -189,7 +184,7 @@ public class PlayerMovement : MonoBehaviour {
 
   void StopClimbing () {
     _IsGrabbing = false;
-    _Rigidbody.gravityScale = 1;
+    _Rigidbody.gravityScale = _GravityScale;
   }
 
   #endregion
@@ -229,7 +224,7 @@ public class PlayerMovement : MonoBehaviour {
 
   void EndDash () {
     _IsDashing = false;
-    _Rigidbody.gravityScale = 1;
+    _Rigidbody.gravityScale = _GravityScale;
     _Rigidbody.velocity *= _VelocityAfterDash;
   }
 

@@ -633,11 +633,11 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 40
-    m_FontStyle: 0
+    m_FontSize: 50
+    m_FontStyle: 1
     m_BestFit: 0
     m_MinSize: 4
-    m_MaxSize: 40
+    m_MaxSize: 50
     m_Alignment: 3
     m_AlignByGeometry: 0
     m_RichText: 1
@@ -1075,13 +1075,13 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 0.67
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 2
   m_Material: {fileID: 0}
   m_Interpolate: 0
-  m_SleepingMode: 1
+  m_SleepingMode: 0
   m_CollisionDetection: 0
   m_Constraints: 4
 --- !u!114 &6902583711458014326
@@ -1096,22 +1096,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70645742e79cc9d48887372c322716b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _UpKey: 119
-  _DownKey: 115
-  _LeftKey: 97
-  _RightKey: 100
-  _JumpKey: 32
-  _DashKey: 106
-  _GrabKey: 107
   _WhatIsGround:
     serializedVersion: 2
     m_Bits: 256
-  _TopLeftGround: {x: -0.3, y: -0.4}
-  _BottomRightGround: {x: 0.3, y: -0.6}
+  _TopLeftGround: {x: -0.4, y: -0.4}
+  _BottomRightGround: {x: 0.45, y: -0.55}
   _TopLeftLeftWall: {x: -0.6, y: 0.4}
-  _BottomRightLeftWall: {x: -0.4, y: -0.5}
+  _BottomRightLeftWall: {x: -0.4, y: -0.45}
   _TopLeftRightWall: {x: 0.4, y: 0.4}
-  _BottomRightRightWall: {x: 0.6, y: -0.5}
+  _BottomRightRightWall: {x: 0.6, y: -0.45}
   _DashSpeed: 30
   _MovementSpeed: 9
   _ClimbSpeed: 3
@@ -1123,13 +1116,15 @@ MonoBehaviour:
   _StandardMultiplier: 2
   _EarlyReleaseMultiplier: 2.5
   _WallJumpDuration: 0.5
-  _DashLength: 0.2
+  _DashDuration: 0.2
   _VelocityAfterDash: 0.315
   _MaxDashes: 1
   _IsDashing: 0
   _MaxStamina: 4
   _StaminaRechargeRate: 8
   _WallJumpStaminaDrain: 0.5
+  _JumpEndVelocityMultiplier: 0
+  _JumpInputDuration: 0.1
 --- !u!114 &5527267577218223511
 MonoBehaviour:
   m_ObjectHideFlags: 0
