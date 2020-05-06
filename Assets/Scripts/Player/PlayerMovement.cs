@@ -151,9 +151,8 @@ public class PlayerMovement : MonoBehaviour {
       _Rigidbody.AddForce (dir * _JumpForce, ForceMode2D.Impulse);
       return;
     }
-    //If the player is falling, add extra force so we get the same lift
-    float fallCounter = _Rigidbody.velocity.y < 0 ? -_Rigidbody.velocity.y : 0;
-    _Rigidbody.AddForce (Vector2.up * (_JumpForce + fallCounter), ForceMode2D.Impulse);
+
+    _Rigidbody.velocity = new Vector2(_Rigidbody.velocity.x, _JumpForce);
   }
 
   #region Wall Climbing
