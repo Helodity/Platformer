@@ -60,6 +60,7 @@ public class PlayerMovement : MonoBehaviour {
   [SerializeField] float _WallJumpForce;
   [SerializeField] float _JumpInputDuration;
   float _JumpInputDurationR;
+  bool _ReadyToCut;
 
   //Grabbing misc
   bool _WantToGrab;
@@ -83,6 +84,12 @@ public class PlayerMovement : MonoBehaviour {
     if (Input.GetKeyDown (PlayerStats._Controls[(int) PlayerStats.PlayerControls.Dash]) && _DashesLeft > 0) {
       _WantToDash = true;
     }
+
+    if (Input.GetKeyUp(PlayerStats._Controls[(int)PlayerStats.PlayerControls.Jump]))
+    {
+      _ReadyToCut = true;
+    }
+
 
     _WantToGrab = _WallJumpDurationR <= 0 && Input.GetKey (PlayerStats._Controls[(int) PlayerStats.PlayerControls.Grab]);
 
@@ -129,13 +136,12 @@ public class PlayerMovement : MonoBehaviour {
       _JumpInputDurationR = 0;
     }
 
-    if (_IsDashing || (_IsGrabbing && _CurrentStamina > 0))
-      return;
-
-    if (_Rigidbody.velocity.y > 0 && Input.GetKeyUp(PlayerStats._Controls[(int)PlayerStats.PlayerControls.Jump]))
+    if (_Rigidbody.velocity.y > 0 && _ReadyToCut && !(_IsDashing || (_IsGrabbing && _CurrentStamina > 0)))
     {
       _Rigidbody.velocity = new Vector2(_Rigidbody.velocity.x, _Rigidbody.velocity.y * _JumpEndVelocityMultiplier);
     }
+
+    _ReadyToCut = false;
   }
 
   void Jump (bool offWall) {
