@@ -25,13 +25,10 @@ public static class SaveSystem {
 
         PlayerStats._SecuredCoins = state.SecuredCoins;
 
-        PlayerStats._Controls[0] = (KeyCode) state.Controls[0];
-        PlayerStats._Controls[1] = (KeyCode) state.Controls[1];
-        PlayerStats._Controls[2] = (KeyCode) state.Controls[2];
-        PlayerStats._Controls[3] = (KeyCode) state.Controls[3];
-        PlayerStats._Controls[4] = (KeyCode) state.Controls[4];
-        PlayerStats._Controls[5] = (KeyCode) state.Controls[5];
-        PlayerStats._Controls[6] = (KeyCode) state.Controls[6];
+        for (int i = 0; i < (int)PlayerStats.PlayerControls.SIZE; i++){
+          PlayerStats._Controls[i] = (KeyCode)state.Controls[i];
+        }
+
       } else {
         Debug.LogError ("Save file not found at " + path);
       }
@@ -49,12 +46,8 @@ public class PlayerStatsSaveState {
   public PlayerStatsSaveState () {
     SecuredCoins = PlayerStats._SecuredCoins;
 
-    Controls[0] = (int) PlayerStats._Controls[0];
-    Controls[1] = (int) PlayerStats._Controls[1];
-    Controls[2] = (int) PlayerStats._Controls[2];
-    Controls[3] = (int) PlayerStats._Controls[3];
-    Controls[4] = (int) PlayerStats._Controls[4];
-    Controls[5] = (int) PlayerStats._Controls[5];
-    Controls[6] = (int) PlayerStats._Controls[6];
+    for(int i = 0; i < (int)PlayerStats.PlayerControls.SIZE; i++){
+      Controls[i] = (int)PlayerStats._Controls[i];
+    }
   }
 }
