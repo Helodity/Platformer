@@ -1073,7 +1073,7 @@ Rigidbody2D:
   m_GameObject: {fileID: 6902583711458014285}
   m_BodyType: 0
   m_Simulated: 1
-  m_UseFullKinematicContacts: 0
+  m_UseFullKinematicContacts: 1
   m_UseAutoMass: 0
   m_Mass: 0.67
   m_LinearDrag: 0
@@ -1082,7 +1082,7 @@ Rigidbody2D:
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!114 &6902583711458014326
 MonoBehaviour:
@@ -1099,8 +1099,8 @@ MonoBehaviour:
   _WhatIsGround:
     serializedVersion: 2
     m_Bits: 256
-  _TopLeftGround: {x: -0.4, y: -0.4}
-  _BottomRightGround: {x: 0.45, y: -0.55}
+  _TopLeftGround: {x: -0.48, y: -0.4}
+  _BottomRightGround: {x: 0.48, y: -0.55}
   _TopLeftLeftWall: {x: -0.6, y: 0.4}
   _BottomRightLeftWall: {x: -0.4, y: -0.45}
   _TopLeftRightWall: {x: 0.4, y: 0.4}
