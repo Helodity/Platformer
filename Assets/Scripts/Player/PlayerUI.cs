@@ -22,7 +22,18 @@ public class PlayerUI : MonoBehaviour {
 
     if (!_TimerPaused) {
       _Timer += Time.deltaTime;
-      _TimerText.text = "Time: " + MathUtils.RoundToPlace (_Timer, 2);
+
+      float seconds = MathUtils.FloorToPlace(_Timer, 0);
+      int miliseconds = (int)((MathUtils.FloorToPlace(_Timer, 2) - seconds) * 100);
+      int startZeros = 0;
+
+      if (miliseconds < 10)
+        startZeros = 1;
+
+      string start = "";
+      for (int i = 0; i < startZeros; i++) { start += "0"; }
+
+      _TimerText.text = "Time: " + seconds + ":" + start + miliseconds;
     }
   }
 

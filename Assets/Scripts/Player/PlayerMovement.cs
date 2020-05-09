@@ -51,7 +51,8 @@ public class PlayerMovement : MonoBehaviour {
   [Header ("Stamina")]
   [SerializeField] float _MaxStamina;
   [SerializeField] float _StaminaRechargeRate;
-  [SerializeField] float _WallJumpStaminaDrain;
+  [SerializeField] float _GrabStartStaminaCost;
+  [SerializeField] float _WallJumpStaminaCost;
   float _CurrentStamina;
 
   [Header("Jumping")]
@@ -147,7 +148,7 @@ public class PlayerMovement : MonoBehaviour {
   void Jump (bool offWall) {
     if (offWall) {
       _WallJumpDurationR = _WallJumpDuration;
-      _CurrentStamina -= _WallJumpStaminaDrain;
+      _CurrentStamina -= _WallJumpStaminaCost;
 
       Vector2 dir = (GetDirection () + Vector2.up).normalized;
       _Rigidbody.velocity = dir * _WallJumpForce;
@@ -186,6 +187,7 @@ public class PlayerMovement : MonoBehaviour {
   void StartClimbing () {
     _IsGrabbing = true;
     _Rigidbody.gravityScale = 0;
+    _CurrentStamina -= _GrabStartStaminaCost;
   }
 
   void StopClimbing () {
@@ -222,10 +224,9 @@ public class PlayerMovement : MonoBehaviour {
 
     _DashesLeft--;
     _DashDurationR = _DashDuration;
-    _IsDashing = true;
-
     _Rigidbody.gravityScale = 0;
     _Rigidbody.velocity = Vector2.zero;
+    _IsDashing = true;
   }
 
   void EndDash () {

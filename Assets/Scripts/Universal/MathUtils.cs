@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public static class MathUtils {
@@ -10,6 +8,15 @@ public static class MathUtils {
     input = Mathf.Round (input);
     return input / factor;
 
+  }
+
+  static public float FloorToPlace (float input, int place)
+  {
+    float factor = Mathf.Pow(10, place);
+
+    input *= factor;
+    input = Mathf.Floor (input);
+    return input / factor;
   }
 
 }
