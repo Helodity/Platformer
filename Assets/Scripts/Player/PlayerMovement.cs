@@ -112,15 +112,15 @@ public class PlayerMovement : MonoBehaviour {
   }
 
   void HandleWalking () {
-    Vector2 targetVelocity = GetDirection () * _MovementSpeed;
-    Vector2 velocityChange = targetVelocity - _Rigidbody.velocity;
+    Vector2 velocity = GetDirection () * _MovementSpeed;
+    velocity -= _Rigidbody.velocity;
 
     float acceleration = _WallJumpDurationR <= 0 ? _Acceleration : _WallJumpAcceleration;
 
-    velocityChange.x = Mathf.Clamp (velocityChange.x, -acceleration, acceleration);
-    velocityChange.y = 0;
+    velocity.x = Mathf.Clamp (velocity.x, -acceleration, acceleration);
+    velocity.y = 0;
 
-    _Rigidbody.velocity += velocityChange;
+    _Rigidbody.velocity += velocity;
   }
 
   void HandleJumping () {
@@ -161,27 +161,26 @@ public class PlayerMovement : MonoBehaviour {
   #region Wall Climbing
 
   void HandleClimbing () {
-    if (!_WantToGrab || CanGrab () == Wall.None || IsGrounded ()) {
-      StopClimbing ();
-      return;
+    if ((!_WantToGrab || CanGrab () == Wall.None || IsGrounded ()) && _IsGrabbing) {
+      StopClimbing();
     }
+
     if (_WantToGrab && !_IsGrabbing && CanGrab () != Wall.None && !IsGrounded () && !_IsDashing && _CurrentStamina > 0) {
       StartClimbing ();
     }
 
-    if (_CurrentStamina > 0) {
+    if (_CurrentStamina > 0 && _IsGrabbing) {
+
       _CurrentStamina -= Time.deltaTime;
-      Vector2 targetVelocity = GetDirection () * _ClimbSpeed;
-      Vector2 velocityChange = targetVelocity - _Rigidbody.velocity;
 
-      velocityChange.y = Mathf.Clamp (velocityChange.y, -_ClimbAcceleration, _ClimbAcceleration);
-      velocityChange.x = 0;
+      Vector2 velocity = GetDirection () * _ClimbSpeed;
+      velocity -= _Rigidbody.velocity;
 
-      _Rigidbody.velocity += velocityChange;
-      return;
+      velocity.y = Mathf.Clamp (velocity.y, -_ClimbAcceleration, _ClimbAcceleration);
+      velocity.x = 0;
+
+      _Rigidbody.velocity += velocity;
     }
-
-    _Rigidbody.gravityScale = _GravityScale;
   }
 
   void StartClimbing () {
@@ -215,8 +214,9 @@ public class PlayerMovement : MonoBehaviour {
   }
 
   void StartDash () {
-    _DashDirection = GetDirection ().normalized;
     _WantToDash = false;
+
+    _DashDirection = GetDirection ().normalized;
 
     //Prevent the player from dashing in place
     if (_DashDirection == Vector2.zero)
