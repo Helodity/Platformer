@@ -1,5 +1,5 @@
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 public class PlayerMovement : MonoBehaviour {
 
   /*TODO
@@ -115,7 +115,8 @@ public class PlayerMovement : MonoBehaviour {
   {
     if (collision.CompareTag("Death"))
     {
-      //Die
+      //Todo: add effects
+      SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     if (collision.CompareTag("Coin"))
@@ -124,8 +125,6 @@ public class PlayerMovement : MonoBehaviour {
       collision.gameObject.SetActive(false);
     }
   }
-
-
 
   void HandleWalking () {
     Vector2 velocity = GetDirection () * _MovementSpeed;
