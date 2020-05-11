@@ -111,6 +111,22 @@ public class PlayerMovement : MonoBehaviour {
     }
   }
 
+  private void OnTriggerEnter2D(Collider2D collision)
+  {
+    if (collision.CompareTag("Death"))
+    {
+      //Die
+    }
+
+    if (collision.CompareTag("Coin"))
+    {
+      Global._RoundCoins ++;
+      collision.gameObject.SetActive(false);
+    }
+  }
+
+
+
   void HandleWalking () {
     Vector2 velocity = GetDirection () * _MovementSpeed;
     velocity -= _Rigidbody.velocity;
