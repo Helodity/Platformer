@@ -132,7 +132,18 @@ public class PlayerMovement : MonoBehaviour {
         StopClimbing ();
       }
 
-      Jump (wallJump);
+      //The jump changes depending on whether you're wall jumping
+      if (wallJump)
+      {
+        _WallJumpDurationR = _WallJumpDuration;
+        _CurrentStamina -= _WallJumpStaminaCost;
+
+        Vector2 dir = (GetDirection() + Vector2.up).normalized;
+        _Rigidbody.velocity = dir * _WallJumpForce;
+        return;
+      }
+
+      _Rigidbody.velocity = new Vector2(_Rigidbody.velocity.x, _JumpForce);
 
       _JumpInputDurationR = 0;
     }
@@ -145,23 +156,10 @@ public class PlayerMovement : MonoBehaviour {
     _ReadyToCut = false;
   }
 
-  void Jump (bool offWall) {
-    if (offWall) {
-      _WallJumpDurationR = _WallJumpDuration;
-      _CurrentStamina -= _WallJumpStaminaCost;
-
-      Vector2 dir = (GetDirection () + Vector2.up).normalized;
-      _Rigidbody.velocity = dir * _WallJumpForce;
-      return;
-    }
-
-    _Rigidbody.velocity = new Vector2(_Rigidbody.velocity.x, _JumpForce);
-  }
-
   #region Wall Climbing
 
   void HandleClimbing () {
-    if ((!_WantToGrab || CanGrab () == Wall.None || IsGrounded ()) && _IsGrabbing) {
+    if ((!_WantToGrab || CanGrab () == Wall.None || IsGrounded () || _CurrentStamina <= 0) && _IsGrabbing) {
       StopClimbing();
     }
 
