@@ -117,6 +117,7 @@ public class PlayerMovement : MonoBehaviour {
     {
       //Todo: add effects
       SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+      Global._RoundCoins = 0;
     }
 
     if (collision.CompareTag("Coin"))
