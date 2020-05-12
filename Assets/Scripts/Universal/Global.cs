@@ -1,7 +1,12 @@
 using UnityEngine;
+
+//Variables used my multiple scripts, but aren't saved between sessions
 public static class Global {
   // Current player
   public static GameObject _Player;
+
+  public static Vector3 _CurrentSpawn;
+
 
   #region coins
 

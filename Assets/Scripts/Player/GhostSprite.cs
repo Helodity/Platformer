@@ -12,7 +12,6 @@ public class GhostSprite : MonoBehaviour
  
   void Awake()
   {
-    Debug.Log("setup");
     _Renderer = GetComponent<SpriteRenderer>();
     _FadedOutColor = _MainColor;
     _FadedOutColor.a = 0;

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//Variables that need to be saved between sessions, like levels beaten.
 [System.Serializable]
 public static class PlayerStats {
   public enum PlayerControls { Up, Down, Left, Right, Jump, Dash, Grab, SIZE }

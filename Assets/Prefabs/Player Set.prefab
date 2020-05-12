@@ -26,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 462730918}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.792405, y: 27.34523, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6902583711593579250}
@@ -95,7 +95,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _MainColor: {r: 1, g: 1, b: 1, a: 1}
-  _FadeOutLerp: 0.289
+  _FadeOutLerp: 0.123
 --- !u!1 &662162606
 GameObject:
   m_ObjectHideFlags: 0
@@ -1063,7 +1063,7 @@ GameObject:
   - component: {fileID: 1123533810021258821}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1205,7 +1205,7 @@ MonoBehaviour:
   _MovementSpeed: 9
   _ClimbSpeed: 3
   _Acceleration: 3
-  _WallJumpAcceleration: 1
+  _WallJumpAcceleration: 0.6
   _ClimbAcceleration: 1.5
   _GravityScale: 2
   _WallJumpDuration: 0.4
@@ -1236,7 +1236,7 @@ MonoBehaviour:
   _LowStaminaIndicator: {fileID: 256759359}
   _LowStaminaThreshold: 0.5
   _GhostSpritePrefab: {fileID: 462730918}
-  _GhostSpriteAmount: 6
+  _GhostSpriteAmount: 4
   _GhostSpriteSpawnRate: 0.05
 --- !u!198 &6902583711458014324
 ParticleSystem:

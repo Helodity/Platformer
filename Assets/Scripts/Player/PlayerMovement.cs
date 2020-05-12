@@ -69,8 +69,9 @@ public class PlayerMovement : MonoBehaviour {
   bool _IsGrabbing;
 
   void Awake () {
-    SaveSystem.Load ();
+    SaveSystem.Load();
     Global._Player = gameObject;
+    transform.position = Camera.main.transform.position = Global._CurrentSpawn;
     _Rigidbody = GetComponent<Rigidbody2D> ();
     _Rigidbody.gravityScale = _GravityScale;
 
