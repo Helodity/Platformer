@@ -185,7 +185,7 @@ public class PlayerMovement : MonoBehaviour {
     }
 
     if (_CurrentStamina > 0 && _IsGrabbing) {
-      if(!IsGrounded())
+      if(Mathf.Abs(_Rigidbody.velocity.y) >= 0.5f)
       {
         _CurrentStamina -= Time.deltaTime;
       }
