@@ -116,9 +116,7 @@ public class PlayerMovement : MonoBehaviour {
   {
     if (collision.CompareTag("Death"))
     {
-      //Todo: add effects
-      SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-      Global._RoundCoins = 0;
+      Die ();
     }
 
     if (collision.CompareTag("Coin"))
@@ -253,7 +251,6 @@ public class PlayerMovement : MonoBehaviour {
   #endregion
 
   #region Misc
-
   void DecrementTimers () {
     if (_DashDurationR > 0) {
       _DashDurationR -= Time.deltaTime;
@@ -312,6 +309,13 @@ public class PlayerMovement : MonoBehaviour {
     }
 
     return output;
+  }
+
+  public void Die()
+  {
+    //Todo: add effects
+    SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    Global._RoundCoins = 0;
   }
 
   #endregion
