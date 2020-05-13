@@ -142,28 +142,19 @@ public class PlayerMovement : MonoBehaviour {
 
   void HandleJumping () {
     if (_JumpInputDurationR > 0 && (IsGrounded() || _IsGrabbing) && !_IsDashing) {
-      //Store _IsGrabbing as we want to know whether we're doing a wall jump, and StopClimbing() sets _IsGrabbing to false
-      bool wallJump = _IsGrabbing;
-
-      if (_IsGrabbing) {
-        StopClimbing ();
-      }
-
+      _JumpInputDurationR = 0;
       //The jump changes depending on whether you're wall jumping
-      if (wallJump)
-      {
+      if (_IsGrabbing)  {
+        StopClimbing();
         _WallJumpDurationR = _WallJumpDuration;
         _CurrentStamina -= _WallJumpStaminaCost;
 
         Vector2 dir = (GetDirection() + Vector2.up).normalized;
         _Rigidbody.velocity = dir * _WallJumpForce;
-      }
-      else
-      {
+      }  else  {
         _Rigidbody.velocity = new Vector2(_Rigidbody.velocity.x, _JumpForce);
       }
 
-      _JumpInputDurationR = 0;
     }
 
     if (_Rigidbody.velocity.y > 0 && _ReadyToCut && !(_IsDashing || (_IsGrabbing && _CurrentStamina > 0)))
@@ -286,6 +277,7 @@ public class PlayerMovement : MonoBehaviour {
   bool IsGrounded () => Physics2D.OverlapArea (_TopLeftGround + (Vector2) transform.position, _BottomRightGround + (Vector2) transform.position, _WhatIsGround);
 
   enum Wall { None, Left, Right }
+  // Returns the wall the player can grab
   Wall CanGrab () {
     if (Physics2D.OverlapArea (_TopLeftLeftWall + (Vector2) transform.position, _BottomRightLeftWall + (Vector2) transform.position, _WhatIsGround)) {
       return Wall.Left;
@@ -298,7 +290,7 @@ public class PlayerMovement : MonoBehaviour {
     return Wall.None;
   }
 
-  //Returns the direction the player is pressing, ignoring the axis
+  // Returns the direction the player is pressing, ignoring the axis
   Vector2 GetDirection () {
     Vector2 output = Vector2.zero;
 
