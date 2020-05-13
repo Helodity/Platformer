@@ -71,11 +71,15 @@ public class PlayerMovement : MonoBehaviour {
   void Awake () {
     SaveSystem.Load();
     Global._Player = gameObject;
-    transform.position = Camera.main.transform.position = Global._CurrentSpawn;
     _Rigidbody = GetComponent<Rigidbody2D> ();
     _Rigidbody.gravityScale = _GravityScale;
 
     _CurrentStamina = _MaxStamina;
+  }
+
+  private void Start()
+  {
+    transform.position = Camera.main.transform.position = Global._CurrentSpawn;
   }
 
   void Update () {
