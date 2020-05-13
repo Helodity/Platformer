@@ -141,8 +141,10 @@ public class PlayerMovement : MonoBehaviour {
   }
 
   void HandleJumping () {
-    if (_JumpInputDurationR > 0 && (IsGrounded() || _IsGrabbing) && !_IsDashing) {
+    if (_JumpInputDurationR > 0 && (IsGrounded () || _IsGrabbing) && !_IsDashing) {
+
       _JumpInputDurationR = 0;
+
       //The jump changes depending on whether you're wall jumping
       if (_IsGrabbing)  {
         StopClimbing();
