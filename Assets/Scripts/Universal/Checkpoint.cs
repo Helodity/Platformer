@@ -4,11 +4,14 @@ public class Checkpoint : MonoBehaviour
 {
   [SerializeField] Sprite _CurrentSprite;
   [SerializeField] Sprite _UnusedSprite;
+  ParticleSystem _Particles;
   SpriteRenderer _Renderer;
 
   private void Awake()
   {
-    _Renderer = GetComponent<SpriteRenderer>();
+    _Renderer = GetComponent<SpriteRenderer> ();
+    _Particles = GetComponent<ParticleSystem> ();
+    _Particles.Stop();
   }
 
   private void Update()
@@ -23,8 +26,12 @@ public class Checkpoint : MonoBehaviour
   {
     if (collision.CompareTag("Player"))
     {
-      Global._CurrentSpawn = transform.position;
-      _Renderer.sprite = _CurrentSprite;
+      if(_Renderer.sprite != _CurrentSprite)
+      {
+        Global._CurrentSpawn = transform.position;
+        _Renderer.sprite = _CurrentSprite;
+        _Particles.Play();
+      }
     }
   }
 }
