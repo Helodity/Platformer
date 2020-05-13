@@ -157,10 +157,11 @@ public class PlayerMovement : MonoBehaviour {
 
         Vector2 dir = (GetDirection() + Vector2.up).normalized;
         _Rigidbody.velocity = dir * _WallJumpForce;
-        return;
       }
-
-      _Rigidbody.velocity = new Vector2(_Rigidbody.velocity.x, _JumpForce);
+      else
+      {
+        _Rigidbody.velocity = new Vector2(_Rigidbody.velocity.x, _JumpForce);
+      }
 
       _JumpInputDurationR = 0;
     }
