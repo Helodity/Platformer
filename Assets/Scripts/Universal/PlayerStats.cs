@@ -17,14 +17,6 @@ public static class PlayerStats {
     KeyCode.K
   };
 
-  public static bool IsKeyPressed (int control, bool getDown) {
-    if (getDown) {
-      return Input.GetKeyDown (_Controls[control]);
-    } else {
-      return Input.GetKey (_Controls[control]);
-    }
-  }
-
   //Coins that were collected in another level
   public static int _SecuredCoins;
 }

@@ -141,7 +141,7 @@ public class PlayerMovement : MonoBehaviour {
   }
 
   void HandleJumping () {
-    if (_JumpInputDurationR > 0 && (IsGrounded() || _IsGrabbing)) {
+    if (_JumpInputDurationR > 0 && (IsGrounded() || _IsGrabbing) && !_IsDashing) {
       //Store _IsGrabbing as we want to know whether we're doing a wall jump, and StopClimbing() sets _IsGrabbing to false
       bool wallJump = _IsGrabbing;
 
@@ -176,17 +176,19 @@ public class PlayerMovement : MonoBehaviour {
   #region Wall Climbing
 
   void HandleClimbing () {
-    if ((!_WantToGrab || CanGrab () == Wall.None || IsGrounded () || _CurrentStamina <= 0) && _IsGrabbing) {
+    if ((!_WantToGrab || CanGrab () == Wall.None  || _CurrentStamina <= 0) && _IsGrabbing) {
       StopClimbing();
     }
 
-    if (_WantToGrab && !_IsGrabbing && CanGrab () != Wall.None && !IsGrounded () && !_IsDashing && _CurrentStamina > 0) {
+    if (_WantToGrab && !_IsGrabbing && CanGrab () != Wall.None && !_IsDashing && _CurrentStamina > 0) {
       StartClimbing ();
     }
 
     if (_CurrentStamina > 0 && _IsGrabbing) {
-
-      _CurrentStamina -= Time.deltaTime;
+      if(!IsGrounded())
+      {
+        _CurrentStamina -= Time.deltaTime;
+      }
 
       Vector2 velocity = GetDirection () * _ClimbSpeed;
       velocity -= _Rigidbody.velocity;
@@ -201,7 +203,10 @@ public class PlayerMovement : MonoBehaviour {
   void StartClimbing () {
     _IsGrabbing = true;
     _Rigidbody.gravityScale = 0;
-    _CurrentStamina -= _GrabStartStaminaCost;
+    if(!IsGrounded())
+    {
+      _CurrentStamina -= _GrabStartStaminaCost;
+    }
   }
 
   void StopClimbing () {
