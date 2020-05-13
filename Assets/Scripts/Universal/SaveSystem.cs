@@ -30,7 +30,8 @@ public static class SaveSystem {
         }
 
       } else {
-        Debug.LogError ("Save file not found at " + path);
+        // No file exists, so create a new one with the current stats
+        Save ();
       }
     } catch {
       Debug.LogError ("Error encountered");

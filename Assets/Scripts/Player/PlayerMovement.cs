@@ -234,6 +234,11 @@ public class PlayerMovement : MonoBehaviour {
     if (_DashDirection == Vector2.zero)
       return;
 
+    if (_IsGrabbing)
+    {
+      StopClimbing ();
+    }
+
     _DashesLeft--;
     _DashDurationR = _DashDuration;
     _Rigidbody.gravityScale = 0;

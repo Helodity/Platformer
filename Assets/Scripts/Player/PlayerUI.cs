@@ -6,6 +6,7 @@ public class PlayerUI : MonoBehaviour {
   [SerializeField] PlayerMovement _Player;
   [SerializeField][Range (0, 1)] float _StaminaLerpSpeed;
   [SerializeField] Image _StaminaBar;
+  [SerializeField] Gradient _StaminaColor;
 
   [Header ("Coin Counter")]
   [SerializeField] Text _CoinText;
@@ -17,6 +18,7 @@ public class PlayerUI : MonoBehaviour {
 
   void FixedUpdate () {
     _StaminaBar.fillAmount = Mathf.Lerp (_StaminaBar.fillAmount, _Player.GetCurrentStamina () / _Player.GetMaxStamina (), _StaminaLerpSpeed);
+    _StaminaBar.color = _StaminaColor.Evaluate(_Player.GetCurrentStamina() / _Player.GetMaxStamina());
 
     _CoinText.text = Global.GetTotalCoins ().ToString ();
 
