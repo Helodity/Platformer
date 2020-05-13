@@ -75,6 +75,7 @@
     <Compile Include="Assets\Scripts\Universal\MathUtils.cs" />
     <Compile Include="Assets\Scripts\Universal\PlayerStats.cs" />
     <Compile Include="Assets\Scripts\Universal\SaveSystem.cs" />
+    <None Include="Assets\TODO.txt" />
     <Reference Include="Unity.Timeline.Editor">
       <HintPath>C:/Users/Kaelan/Documents/GitHub/Platformer/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
     </Reference>
