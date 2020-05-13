@@ -1,23 +1,36 @@
 
-Release 0.3 - Items update:
+Release 0.3 - Respawn update:
 x  Death and respawning
-  Dash Coin
 x  Checkpoints? - Will need scene savestates
-  Timer pauses
 
 Release 0.4 - Menu update:
   Add a pause menu
 x  Allow players to change keybinds
   restart stage
 
-Release 0.5 - Graphics update:
-  Create some good ground and background graphics
+Release 0.5 - Items update
+  Falling blocks?
+  Dash Coins
+  Enemies?
+  Springs
+  One way Platforms
+
+Release 0.6 - Graphics update:
+  Create some better ground and background graphics
   create and animate player (do not use IK)
   background music
   sfx
 
-Release 0.6 - Hub update:
+Release 0.7 - Hub update:
   Add hub
-  Objects to transfer between scenes on touch and on key press
+  Objects to transfer player to hub
 
+Release 0.8 - Demo
+  Add first level of story
+  Cutscenes?
+
+Release 1.0 - Story
+  Full story finished (5 levels?)
+
+Release 1.1 - Level editor
 

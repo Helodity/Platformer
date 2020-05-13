@@ -24,10 +24,9 @@ public class PlayerVisuals : MonoBehaviour {
 
   void Start () {
     _DashParticles = GetComponent<ParticleSystem> ();
-    _DashParticles.Stop ();
-
     _PlayerMovement = GetComponent<PlayerMovement> ();
     _PlayerRenderer = GetComponent<SpriteRenderer> ();
+
     _LowStaminaIndicator.SetActive (false);
 
     _GhostSprites = new SpriteRenderer[_GhostSpriteAmount];

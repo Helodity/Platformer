@@ -64,12 +64,12 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\Main Menu\ControlsMenu.cs" />
     <Compile Include="Assets\Scripts\Main Menu\SceneChanger.cs" />
+    <Compile Include="Assets\Scripts\Objects\Checkpoint.cs" />
     <Compile Include="Assets\Scripts\Player\CameraFollow.cs" />
     <Compile Include="Assets\Scripts\Player\GhostSprite.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerMovement.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerUI.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerVisuals.cs" />
-    <Compile Include="Assets\Scripts\Universal\Checkpoint.cs" />
     <Compile Include="Assets\Scripts\Universal\Flash.cs" />
     <Compile Include="Assets\Scripts\Universal\Global.cs" />
     <Compile Include="Assets\Scripts\Universal\MathUtils.cs" />

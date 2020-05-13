@@ -11,7 +11,6 @@ public class Checkpoint : MonoBehaviour
   {
     _Renderer = GetComponent<SpriteRenderer> ();
     _Particles = GetComponent<ParticleSystem> ();
-    _Particles.Stop();
   }
 
   private void Update()
