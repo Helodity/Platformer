@@ -151,7 +151,7 @@ public class PlayerMovement : MonoBehaviour {
         _WallJumpDurationR = _WallJumpDuration;
         _CurrentStamina -= _WallJumpStaminaCost;
 
-        Vector2 dir = (GetDirection() + Vector2.up).normalized;
+        Vector2 dir = (new Vector2(GetDirection().x , 0) + Vector2.up).normalized;
         _Rigidbody.velocity = dir * _WallJumpForce;
       }  else  {
         _Rigidbody.velocity = new Vector2(_Rigidbody.velocity.x, _JumpForce);
@@ -274,11 +274,7 @@ public class PlayerMovement : MonoBehaviour {
   void Land () {
     _WallJumpDurationR = 0;
     _DashesLeft = _MaxDashes;
-    if (_CurrentStamina < _MaxStamina) {
-      _CurrentStamina += _StaminaRechargeRate * Time.deltaTime;
-    } else {
-      _CurrentStamina = _MaxStamina;
-    }
+    _CurrentStamina = _MaxStamina;
   }
 
   bool IsGrounded () => Physics2D.OverlapArea (_TopLeftGround + (Vector2) transform.position, _BottomRightGround + (Vector2) transform.position, _WhatIsGround);

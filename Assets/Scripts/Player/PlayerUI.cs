@@ -4,8 +4,9 @@ using UnityEngine.UI;
 public class PlayerUI : MonoBehaviour {
   [Header ("Stamina")]
   [SerializeField] PlayerMovement _Player;
-  [SerializeField][Range (0, 1)] float _StaminaLerpSpeed;
-  [SerializeField] Image _StaminaBar;
+  [SerializeField] [Range (0, 1)] float _StaminaLerpSpeed;
+  [SerializeField] Image _StaminaBarFill;
+  [SerializeField] Image _StaminaBarBackground;
   [SerializeField] Gradient _StaminaColor;
 
   [Header ("Coin Counter")]
@@ -18,9 +19,8 @@ public class PlayerUI : MonoBehaviour {
   bool _TimerPaused = false;
 
   void FixedUpdate () {
-    _StaminaBar.fillAmount = Mathf.Lerp (_StaminaBar.fillAmount, _Player.GetCurrentStamina () / _Player.GetMaxStamina (), _StaminaLerpSpeed);
-    _StaminaBar.color = _StaminaColor.Evaluate(_Player.GetCurrentStamina() / _Player.GetMaxStamina());
 
+    UpdateStamina ();
     _CoinText.text = Global.GetTotalCoins ().ToString ();
 
     if (!_TimerPaused) {
@@ -28,7 +28,14 @@ public class PlayerUI : MonoBehaviour {
     }
   }
 
-  #region Timer UI Functions
+  void UpdateStamina()
+  {
+    _StaminaBarFill.fillAmount = Mathf.Lerp(_StaminaBarFill.fillAmount, _Player.GetCurrentStamina() / _Player.GetMaxStamina(), _StaminaLerpSpeed);
+    _StaminaBarFill.color = _StaminaColor.Evaluate(_Player.GetCurrentStamina() / _Player.GetMaxStamina());
+  }
+
+
+  #region Timer Functions
   void UpdateTimer()
   {
     _Timer += Time.deltaTime * _TimerSpeed;
@@ -57,10 +64,8 @@ public class PlayerUI : MonoBehaviour {
       miliZeros = "0";
     }
 
-    _TimerText.text = "Time: " + minuteZeros + minutes + ":" + secondZeros + seconds + ":" + miliZeros + miliseconds;
+    _TimerText.text = minuteZeros + minutes + ":" + secondZeros + seconds + ":" + miliZeros + miliseconds;
   }
-
-
 
   public void StartTimer () {
     _TimerPaused = false;
