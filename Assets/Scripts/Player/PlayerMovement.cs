@@ -167,6 +167,12 @@ public class PlayerMovement : MonoBehaviour {
 
     }
 
+    if(_Rigidbody.velocity.y < 0 && _WallJumpDurationR > 0)
+    {
+      _WallJumpDurationR = 0;
+    }
+
+
     if (_Rigidbody.velocity.y > 0 && _ReadyToCut && !(_IsDashing || (_IsGrabbing && _CurrentStamina > 0)))
     {
       _Rigidbody.velocity = new Vector2(_Rigidbody.velocity.x, _Rigidbody.velocity.y * _JumpEndVelocityMultiplier);

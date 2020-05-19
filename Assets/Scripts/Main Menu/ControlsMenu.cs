@@ -1,4 +1,5 @@
 using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -52,13 +53,11 @@ public class ControlsMenu : MonoBehaviour {
   }
 
   KeyCode FetchKey () {
-    var e = System.Enum.GetNames (typeof (KeyCode)).Length;
-    for (int i = 0; i < e; i++) {
-      if (Input.GetKey ((KeyCode) i)) {
-        return (KeyCode) i;
-      }
+    foreach(KeyCode key in Enum.GetValues(typeof(KeyCode)))
+    {
+      if (Input.GetKey(key))
+        return key;
     }
-
     return KeyCode.None;
   }
 }
