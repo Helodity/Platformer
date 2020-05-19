@@ -9,6 +9,9 @@ public class PlayerMovement : MonoBehaviour {
   //General parts used by multiple components
   Rigidbody2D _Rigidbody;
 
+  enum Direction { Left, Right }
+  Direction _Direction;
+
   [Header ("Ground and Wall Checks")]
   [SerializeField] LayerMask _WhatIsGround;
   [Space]
@@ -23,7 +26,7 @@ public class PlayerMovement : MonoBehaviour {
 
   [Header ("Movement Speed")]
   [SerializeField] float _DashSpeed;
-  [SerializeField] float _MovementSpeed;
+  [SerializeField] float _WalkingSpeed;
   [SerializeField] float _ClimbSpeed;
 
   [Header ("Acceleration")]
@@ -129,15 +132,20 @@ public class PlayerMovement : MonoBehaviour {
   }
 
   void HandleWalking () {
-    Vector2 velocity = GetDirection () * _MovementSpeed;
+    Vector2 velocity = GetDirection () * _WalkingSpeed;
     velocity -= _Rigidbody.velocity;
 
-    float acceleration = _WallJumpDurationR <= 0 ? _Acceleration : _WallJumpAcceleration;
+    float acceleration = (_WallJumpDurationR <= 0 ? _Acceleration : _WallJumpAcceleration) * Time.deltaTime;
 
     velocity.x = Mathf.Clamp (velocity.x, -acceleration, acceleration);
     velocity.y = 0;
 
     _Rigidbody.velocity += velocity;
+
+    if(GetDirection ().x != 0)
+    {
+      _Direction = (Direction)((GetDirection().x + 1) / 2);
+    }
   }
 
   void HandleJumping () {
@@ -234,7 +242,7 @@ public class PlayerMovement : MonoBehaviour {
 
     //Prevent the player from dashing in place
     if (_DashDirection == Vector2.zero)
-      return;
+      _DashDirection = Vector2.right * (((int)_Direction * 2) - 1);
 
     if (_IsGrabbing)
     {
