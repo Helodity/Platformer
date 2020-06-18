@@ -1,12 +1,7 @@
-
-Release 0.3 - Respawn update:
-x  Death and respawning
-x  Checkpoints? - Will need scene savestates
-
 Release 0.4 - Menu update:
   Add a pause menu
-x  Allow players to change keybinds
-  restart stage
+x Allow players to change keybinds
+  Restart stage
 
 Release 0.5 - Items update
   Falling blocks?

@@ -3,10 +3,12 @@ using UnityEngine;
 //Variables used my multiple scripts, but aren't saved between sessions
 public static class Global {
   // Current player
-  public static GameObject _Player;
+  public static GameObject _Player = null;
 
-  public static Vector3 _CurrentSpawn;
 
+  //Player spawning variables
+  public static Vector3 _CurrentSpawn = Vector3.zero;
+  public static bool _HasHitCheckpoint = false;
 
   #region coins
 

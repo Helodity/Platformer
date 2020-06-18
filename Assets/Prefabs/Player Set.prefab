@@ -1090,29 +1090,36 @@ MonoBehaviour:
     m_Bits: 256
   _TopLeftGround: {x: -0.48, y: -0.4}
   _BottomRightGround: {x: 0.48, y: -0.55}
-  _TopLeftLeftWall: {x: -0.6, y: 0.45}
+  _TopLeftLeftWall: {x: -0.55, y: 0.45}
   _BottomRightLeftWall: {x: -0.4, y: -0.45}
   _TopLeftRightWall: {x: 0.4, y: 0.45}
-  _BottomRightRightWall: {x: 0.6, y: -0.45}
+  _BottomRightRightWall: {x: 0.55, y: -0.45}
+  _TopLeftLeftWallJump: {x: -0.7, y: 0.45}
+  _BottomRightLeftWallJump: {x: -0.4, y: -0.45}
+  _TopLeftRightWallJump: {x: 0.7, y: 0.45}
+  _BottomRightRightWallJump: {x: 0.4, y: -0.45}
   _DashSpeed: 30
   _WalkingSpeed: 10
   _ClimbSpeed: 3
   _Acceleration: 100
-  _WallJumpAcceleration: 4
+  _WallJumpAcceleration: 1
   _ClimbAcceleration: 5
-  _GravityScale: 2
-  _WallJumpDuration: 0.4
-  _DashDuration: 0.2
+  _AccelerationSmoothRate: 0.1
+  _GravityScale: 3
   _VelocityAfterDash: 0.315
   _MaxDashes: 1
+  _DashDuration: 0.2
   _IsDashing: 0
   _MaxStamina: 4
   _StaminaRechargeRate: 8
   _GrabStartStaminaCost: 0.1
-  _WallJumpStaminaCost: 0.6
+  _GrabJumpStaminaCost: 0.6
   _JumpEndVelocityMultiplier: 0.678
-  _JumpForce: 10
-  _WallJumpForce: 10
+  _JumpForce: 12
+  _GrabbingJumpForce: 12
+  _GrabbingJumpDuration: 0.4
+  _WallJumpForce: 18
+  _WallJumpDuration: 0.5
   _JumpInputDuration: 0.1
 --- !u!114 &5527267577218223511
 MonoBehaviour:
@@ -1964,7 +1971,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 10
+      scalar: 0
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -2017,7 +2024,7 @@ ParticleSystem:
     rateOverDistance:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0
+      scalar: 1
       minScalar: 0
       maxCurve:
         serializedVersion: 2

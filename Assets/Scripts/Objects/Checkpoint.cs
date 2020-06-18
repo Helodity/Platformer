@@ -28,6 +28,7 @@ public class Checkpoint : MonoBehaviour
       if(_Renderer.sprite != _CurrentSprite)
       {
         Global._CurrentSpawn = transform.position;
+        Global._HasHitCheckpoint = true;
         _Renderer.sprite = _CurrentSprite;
         _Particles.Play();
       }
